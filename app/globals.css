@@ -15,3 +15,28 @@
   font-display: swap;
   src: url("./fonts/IropkeBatangM.otf") format("otf");
 }
+
+@layer components {
+  .zigzag-pattern {
+    @apply relative bg-white h-7 shadow-lg z-10;
+  }
+
+  .zigzag-pattern::after {
+    content: "";
+    display: block;
+    height: 30px;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: linear-gradient(-135deg, #fff 15px, transparent 0) 0 15px,
+      linear-gradient(135deg, #fff 15px, transparent 0) 0 15px;
+    background-position: top left;
+    background-repeat: repeat-x;
+    background-size: 30px 30px;
+  }
+
+  .oauth {
+    @apply size-14 border rounded-md flex items-center justify-center;
+  }
+}
