@@ -1,13 +1,8 @@
-import type { Config } from "tailwindcss"
+import type { Config } from "tailwindcss";
 
 const config = {
   darkMode: ["class"],
-  content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
-	],
+  content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
   prefix: "",
   theme: {
     container: {
@@ -17,46 +12,75 @@ const config = {
         "2xl": "1400px",
       },
     },
+    fontSize: {
+      "4xl": ["40px", "52px"],
+      "3xl": ["32px", "42px"],
+      "2xl": ["24px", "32px"],
+      xl: ["20px", "32px"],
+      lg: ["16px", "26px"],
+      md: ["14px", "24px"],
+      sm: ["13px", "22px"],
+      xs: ["12px", "18px"],
+    },
     extend: {
       colors: {
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
-        primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
+        black: {
+          "100": "hsl(0, 0, 47)",
+          "200": "hsl(0, 0, 42)",
+          "300": "hsl(0, 0, 37)",
+          "400": "hsl(0, 0, 32)",
+          "500": "hsl(0, 0, 27)",
+          "600": "hsl(0, 0, 22)",
+          "700": "hsl(0, 0, 17)",
+          "800": "hsl(0, 0, 12)",
+          "900": "hsl(0, 0, 7)",
+          "950": "hsl(0, 0, 2)",
         },
-        secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
+        blue: {
+          "100": "hsl(0, 0, 100)",
+          "200": "hsl(218, 27, 94)",
+          "300": "hsl(218, 27, 84)",
+          "400": "hsl(218, 27, 74)",
+          "500": "hsl(218, 27, 64)",
+          "600": "hsl(218, 27, 54)",
+          "700": "hsl(218, 27, 44)",
+          "800": "hsl(218, 27, 34)",
+          "900": "hsl(218, 27, 24)",
+          "950": "hsl(218, 27, 13)",
         },
-        destructive: {
-          DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
+        background: "hsl(216, 33, 97)",
+        error: "hsl(353, 100, 70)",
+        gray: {
+          "100": "hsl(0, 0, 87)",
+          "200": "hsl(0, 0, 77)",
+          "300": "hsl(0, 0, 67)",
+          "400": "hsl(0, 0, 57)",
         },
-        muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
+        line: {
+          "#F2F2F2": "hsl(0, 0, 95)",
+          CFDBEA: "hsl(213, 39, 86)",
         },
-        accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
+        illust: {
+          yellow: "hsl(41, 95, 67)",
+          green: "hsl(162, 46, 51)",
+          purple: "hsl(248, 64, 70)",
+          blue: "hsl(214, 82, 63)",
+          red: "hsl(351, 69, 66)",
+          brown: "hsl(11, 24, 49)",
         },
-        popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
-        },
-        card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
+        sub: {
+          yellow: "hsl(41, 81, 53)",
+          "blue-1": "hsl(0, 0, 24)",
+          "blue-2": "hsl(228, 11, 27)",
+          "blue-3": "hsl(225, 10, 32)",
+          "gray-1": "hsl(216, 29, 83)",
+          "gray-2": "hsl(214, 33, 92)",
+          "gray-3": "hsl(213, 39, 95)",
         },
       },
-      borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+      fontFamily: {
+        pre: ["PretendardVariable"],
+        iropke: ["IropkeBatangM"],
       },
       keyframes: {
         "accordion-down": {
@@ -75,6 +99,6 @@ const config = {
     },
   },
   plugins: [require("tailwindcss-animate")],
-} satisfies Config
+} satisfies Config;
 
-export default config
+export default config;

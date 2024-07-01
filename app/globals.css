@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: PretendardVariable;
+  font-weight: 45 920;
+  font-display: swap;
+  src: url("./fonts/PretendardVariable.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: IropkeBatangM;
+  font-weight: 500;
+  font-display: swap;
+  src: url("./fonts/IropkeBatangM.otf") format("otf");
+}
