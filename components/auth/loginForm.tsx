@@ -1,16 +1,16 @@
 import Link from "next/link";
 import { Button } from "../ui/button";
 import SocialBox from "./socialBox";
-import TextField from "../core/textField";
+import TextField from "../core/input/textField";
 
 interface IAuthFOrmProps {}
 export default function LoginForm(props: IAuthFOrmProps) {
   return (
     <>
-      <form className="flex flex-col gap-4">
+      <form className="flex flex-col gap-4 w-[640px]">
         <TextField
           className="textField-solid"
-          error={true}
+          error={false}
           placeholder="이메일"
         />
         <TextField

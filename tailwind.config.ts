@@ -112,6 +112,7 @@ const config = {
   },
   plugins: [
     require("tailwindcss-animate"),
+    require("@tailwindcss/forms"),
     plugin(function ({ addVariant }) {
       addVariant("error", "&.error");
     }),
