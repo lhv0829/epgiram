@@ -1,15 +1,15 @@
 import Link from "next/link";
 import { Button } from "../ui/button";
-import { Input } from "../ui/input";
 import SocialBox from "./socialBox";
+import TextField from "../core/textField";
 
 interface IAuthFOrmProps {}
 export default function LoginForm(props: IAuthFOrmProps) {
   return (
     <>
       <form className="flex flex-col gap-4">
-        <Input placeholder="이메일" />
-        <Input placeholder="비밀번호" />
+        <TextField placeholder="이메일" className="textField-outline" />
+        <TextField placeholder="비밀번호" />
         <Button variant="outline">로그인</Button>
       </form>
       {/**로그인 페이지에서만 나와야함. */}

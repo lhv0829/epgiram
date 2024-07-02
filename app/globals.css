@@ -23,12 +23,7 @@
 
   .zigzag-pattern::after {
     content: "";
-    display: block;
-    height: 30px;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
+    @apply block absolute top-full left-0 right-0 h-7;
     background: linear-gradient(-135deg, #fff 15px, transparent 0) 0 15px,
       linear-gradient(135deg, #fff 15px, transparent 0) 0 15px;
     background-position: top left;
@@ -38,5 +33,13 @@
 
   .oauth {
     @apply size-14 border rounded-md flex items-center justify-center;
+  }
+
+  .textField-outline {
+    @apply w-[640px] bg-black;
+  }
+
+  .textField-solid {
+    @apply w-[640px];
   }
 }
