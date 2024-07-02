@@ -8,8 +8,16 @@ export default function LoginForm(props: IAuthFOrmProps) {
   return (
     <>
       <form className="flex flex-col gap-4">
-        <TextField placeholder="이메일" className="textField-outline" />
-        <TextField placeholder="비밀번호" />
+        <TextField
+          className="textField-solid"
+          error={true}
+          placeholder="이메일"
+        />
+        <TextField
+          error={true}
+          placeholder="비밀번호"
+          className="textField-solid"
+        />
         <Button variant="outline">로그인</Button>
       </form>
       {/**로그인 페이지에서만 나와야함. */}

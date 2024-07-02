@@ -36,10 +36,10 @@
   }
 
   .textField-outline {
-    @apply w-[640px] bg-black;
+    @apply w-[640px] h-16 px-4 rounded-xl bg-background border border-blue-300 text-black-950 text-xl  outline-none placeholder:text-blue-400 hover:border-blue-500 error:border-error error:text-error;
   }
 
   .textField-solid {
-    @apply w-[640px];
+    @apply w-[640px] h-16 px-4 rounded-xl bg-blue-200 text-black-950 text-xl outline-none placeholder:text-blue-400 error:border error:border-error error:text-error;
   }
 }

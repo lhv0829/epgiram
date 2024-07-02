@@ -1,13 +1,20 @@
+// textfield.tsx
 import { InputHTMLAttributes } from "react";
-import { Input } from "../ui/input";
 
-interface ITextFIeldProps extends InputHTMLAttributes<HTMLInputElement> {}
+interface ITextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
+  error?: boolean;
+}
 
-export default function TextField(props: ITextFIeldProps) {
+export default function TextField({ error, ...props }: ITextFieldProps) {
   return (
-    <div className="text-right">
-      <Input {...props} className={props.className} />
-      <span>error</span>
+    <div className="flex flex-col text-right">
+      <input
+        {...props}
+        className={`${error ? "error" : ""} ${props.className || ""}`}
+      />
+      <span className={` ${error ? "text-error visible" : "hidden"}`}>
+        error
+      </span>
     </div>
   );
 }
