@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Button } from "../ui/button";
-import SocialBox from "./socialBox";
-import TextField from "../core/input/textField";
+import TextField from "../core/input/TextField";
+import SocialBox from "./SocialBox";
 
 interface IAuthFOrmProps {}
 export default function LoginForm(props: IAuthFOrmProps) {

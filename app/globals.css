@@ -6,17 +6,27 @@
   font-family: PretendardVariable;
   font-weight: 45 920;
   font-display: swap;
-  src: url("./fonts/PretendardVariable.woff2") format("woff2");
+  src: url("/fonts/PretendardVariable.woff2") format("woff2");
 }
 
 @font-face {
   font-family: IropkeBatangM;
   font-weight: 500;
   font-display: swap;
-  src: url("./fonts/IropkeBatangM.otf") format("otf");
+  src: url("/fonts/IropkeBatangM.woff") format("otf");
 }
 
-@layer components {
+@layer utilities {
+  .notebook-background {
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(255, 255, 255, 1) 90%,
+      rgba(0, 0, 0, 0) 100%
+    );
+    background-size: 100% 24px;
+  }
+
   .zigzag-pattern {
     @apply relative bg-white h-7 shadow-lg z-10;
   }
@@ -30,7 +40,9 @@
     background-repeat: repeat-x;
     background-size: 30px 30px;
   }
+}
 
+@layer components {
   .oauth {
     @apply size-14 border rounded-md flex items-center justify-center;
   }
@@ -45,10 +57,10 @@
   }
 
   .textarea-outline {
-    @apply w-full px-4 py-3 rounded-lg border border-line-CFDBEA resize-none text-xl text-black-950 placeholder:text-blue-400 placeholder:text-xl focus:outline-none focus:ring-1 focus:ring-black-600 error:ring-1 error:ring-error;
+    @apply w-full px-4 py-3 rounded-lg border border-line-#CFDBEA resize-none text-xl text-black-950 placeholder:text-blue-400 placeholder:text-xl focus:outline-none focus:ring-1 focus:ring-black-600 error:ring-1 error:ring-error;
   }
 
   .textarea-solid {
-    @apply w-full px-4 py-3 rounded-lg bg-blue-100 border border-line-CFDBEA resize-none text-xl text-black-700 placeholder:text-blue-400 placeholder:text-xl outline-none focus:ring-1 focus:ring-black-600 ring-1 ring-blue-300  error:focus:ring-error error:ring-error;
+    @apply w-full px-4 py-3 rounded-lg bg-blue-100 border border-line-#CFDBEA resize-none text-xl text-black-700 placeholder:text-blue-400 placeholder:text-xl outline-none focus:ring-1 focus:ring-black-600 ring-1 ring-blue-300  error:focus:ring-error error:ring-error;
   }
 }

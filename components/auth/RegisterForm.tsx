@@ -1,7 +1,7 @@
-import TextField from "../core/input/textField";
+import TextField from "../core/input/TextField";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import SocialBox from "./socialBox";
+import SocialBox from "./SocialBox";
 
 interface IRegisterFormProps {}
 export default function RegisterForm(props: IRegisterFormProps) {

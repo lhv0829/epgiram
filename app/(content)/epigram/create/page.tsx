@@ -1,5 +1,5 @@
-import TextArea from "@/components/core/input/textArea";
-import TextField from "@/components/core/input/textField";
+import TextArea from "@/components/core/input/TextArea";
+import TextField from "@/components/core/input/TextField";
 import { Button } from "@/components/ui/button";
 
 export default function Create() {

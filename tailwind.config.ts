@@ -64,7 +64,7 @@ const config = {
         },
         line: {
           "#F2F2F2": "hsl(0, 0, 95)",
-          CFDBEA: "hsl(213, 39, 86)",
+          "#CFDBEA": "hsl(213, 39, 86)",
         },
         illust: {
           yellow: "hsl(41, 95, 67)",
@@ -85,8 +85,8 @@ const config = {
         },
       },
       fontFamily: {
-        pre: ["PretendardVariable"],
-        iropke: ["IropkeBatangM"],
+        pre: ["PretendardVariable", "sans-serif"],
+        iropke: ["IropkeBatangM", "serif"],
       },
       keyframes: {
         "accordion-down": {

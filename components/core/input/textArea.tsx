@@ -6,7 +6,7 @@ interface ITextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
 
 export default function TextArea({ error, ...props }: ITextAreaProps) {
   return (
-    <div className="flex flex-col text-right">
+    <div className="flex flex-col text-end">
       <textarea
         {...props}
         className={`${error ? "error" : ""} ${props.className || ""}`}

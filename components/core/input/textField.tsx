@@ -7,7 +7,7 @@ interface ITextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
 
 export default function TextField({ error, ...props }: ITextFieldProps) {
   return (
-    <div className="flex flex-col text-right">
+    <div className="flex flex-col text-end">
       <input
         {...props}
         className={` ${error ? "error" : ""} ${props.className || ""}`}
