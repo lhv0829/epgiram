@@ -1,4 +1,4 @@
-import SearchInput from "@/components/core/search/SearchInput";
+import SearchInput from "@/components/search/SearchInput";
 import Image from "next/image";
 
 export default function Search() {

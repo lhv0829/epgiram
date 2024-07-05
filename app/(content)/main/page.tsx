@@ -1,4 +1,4 @@
-import Comment from "@/components/core/Comment";
+import Comment from "@/components/main/Comment";
 import Card from "@/components/main/Card";
 
 export default function Main() {
