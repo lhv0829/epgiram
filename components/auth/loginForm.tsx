@@ -21,9 +21,11 @@ export default function LoginForm(props: IAuthFOrmProps) {
         <Button variant="outline">로그인</Button>
       </form>
       {/**로그인 페이지에서만 나와야함. */}
-      <div className="text-right">
-        <span>회원이 아니신가요?</span>
-        <Link href={"../register"}>가입하기</Link>
+      <div className="text-right text-xl font-medium ">
+        <span className="text-blue-400 mr-2">회원이 아니신가요?</span>
+        <Link href={"../register"} className="underline">
+          가입하기
+        </Link>
       </div>
       <SocialBox />
     </>

@@ -1,13 +1,16 @@
-"use client";
+import { Metadata } from "next";
 
-import { useParams } from "next/navigation";
+export async function generateMetadata({
+  params,
+}: {
+  params: { id: string };
+}): Promise<Metadata> {
+  const { id } = params;
+  return {
+    title: id,
+  };
+}
 
 export default function EpigramDetail() {
-  const { id } = useParams();
-
-  return (
-    <div>
-      <h1>epigram : {id}</h1>
-    </div>
-  );
+  return <div></div>;
 }

@@ -1,9 +1,14 @@
 import SearchInput from "@/components/search/SearchInput";
+import { Metadata } from "next";
 import Image from "next/image";
+
+export const metadata: Metadata = {
+  title: "에피그램 검색",
+};
 
 export default function Search() {
   return (
-    <main className="w-[640px]">
+    <main className="w-[640px] mt-6">
       <SearchInput />
       {/* <section>
         <header className="flex justify-between">

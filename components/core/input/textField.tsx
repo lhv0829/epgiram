@@ -1,20 +1,26 @@
-// textfield.tsx
-import { InputHTMLAttributes } from "react";
+import { InputHTMLAttributes, forwardRef } from "react";
 
 interface ITextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   error?: boolean;
 }
 
-export default function TextField({ error, ...props }: ITextFieldProps) {
-  return (
-    <div className="flex flex-col text-end">
-      <input
-        {...props}
-        className={` ${error ? "error" : ""} ${props.className || ""}`}
-      />
-      <span className={` ${error ? "text-error visible" : "hidden"}`}>
-        error
-      </span>
-    </div>
-  );
-}
+const TextField = forwardRef<HTMLInputElement, ITextFieldProps>(
+  ({ error, ...props }, ref) => {
+    return (
+      <div className="flex flex-col flex-grow text-end">
+        <input
+          {...props}
+          ref={ref}
+          className={`${props.className || ""} ${error ? "error" : ""}`}
+        />
+        <span className={` ${error ? "text-error visible" : "hidden"}`}>
+          error
+        </span>
+      </div>
+    );
+  }
+);
+
+TextField.displayName = "TextField";
+
+export default TextField;

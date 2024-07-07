@@ -1,5 +1,10 @@
-import Comment from "@/components/main/Comment";
-import Card from "@/components/main/Card";
+import Card from "@/components/epigram/Card";
+import Comment from "@/components/epigram/Comment";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Main",
+};
 
 export default function Main() {
   const cardProps = {
@@ -8,7 +13,7 @@ export default function Main() {
     tags: ["#나아가야할때", "#꿈을이루고싶을때"],
   };
 
-  const commentProps1 = {
+  const commentProps = {
     username: "지킬과 하이드",
     timeAgo: "1시간 전",
     content:
@@ -16,16 +21,8 @@ export default function Main() {
     me: true,
   };
 
-  const commentProps2 = {
-    username: "지킬과 하이드",
-    timeAgo: "1시간 전",
-    content:
-      "오늘 하루 우울했었는데 덕분에 많은 힘 얻고 갑니다. 연금술사 책 다시 사서 오랜만에 읽어 봐야겠어요!",
-  };
-
   return (
     <div>
-      <h1>Main</h1>
       <div className="flex flex-col gap-4 w-[700px]">
         <Card
           {...{
@@ -40,8 +37,8 @@ export default function Main() {
         ))}
       </div>
       <div className="flex flex-col items-center justify-center gap-4">
-        <Comment {...commentProps1} />
-        <Comment {...commentProps2} />
+        <Comment {...commentProps} />
+        <Comment {...commentProps} />
       </div>
     </div>
   );
