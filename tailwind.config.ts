@@ -1,8 +1,14 @@
 import type { Config } from "tailwindcss";
+import plugin from "tailwindcss/plugin";
 
 const config = {
   darkMode: ["class"],
-  content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
+  content: [
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
+  ],
   prefix: "",
   theme: {
     container: {
@@ -58,7 +64,7 @@ const config = {
         },
         line: {
           "#F2F2F2": "hsl(0, 0, 95)",
-          CFDBEA: "hsl(213, 39, 86)",
+          "#CFDBEA": "hsl(213, 39, 86)",
         },
         illust: {
           yellow: "hsl(41, 95, 67)",
@@ -79,8 +85,8 @@ const config = {
         },
       },
       fontFamily: {
-        pre: ["PretendardVariable"],
-        iropke: ["IropkeBatangM"],
+        pre: ["PretendardVariable", "sans-serif"],
+        iropke: ["IropkeBatangM", "serif"],
       },
       keyframes: {
         "accordion-down": {
@@ -98,7 +104,19 @@ const config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  variants: {
+    extend: {
+      borderColor: ["error"],
+      textColor: ["error"],
+    },
+  },
+  plugins: [
+    require("tailwindcss-animate"),
+    require("@tailwindcss/forms"),
+    plugin(function ({ addVariant }) {
+      addVariant("error", "&.error");
+    }),
+  ],
 } satisfies Config;
 
 export default config;
