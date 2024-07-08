@@ -20,7 +20,7 @@ const config = {
       lg: ["16px", "26px"],
       md: ["14px", "24px"],
       sm: ["13px", "22px"],
-      xs: ["12px", "18px"],
+      xs: ["12px", "20px"],
     },
     extend: {
       colors: {
