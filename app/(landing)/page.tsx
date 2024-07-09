@@ -8,6 +8,7 @@ import TodayEmotion from "@/components/TodayEmotion";
 
 import { Calendar } from "@/components/ui/calendar";
 import EmotionChart from "@/components/EmotionChart";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
   return (
@@ -22,7 +23,6 @@ export default function Home() {
       <SwitchDemo />
       <ScrollToTopButton />
       <TodayEmotion />
-
       <Calendar />
       <EmotionChart />
     </>
