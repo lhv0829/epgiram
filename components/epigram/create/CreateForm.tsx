@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import TextArea from "@/components/core/input/TextArea";
-import TextField from "@/components/core/input/TextField";
+import TextArea from "@/components/core/input/textArea";
+import TextField from "@/components/core/input/textField";
 import { Button } from "@/components/ui/button";
 
 export default function CreateForm() {
@@ -70,6 +70,7 @@ export default function CreateForm() {
             id="authorName"
             className="textField-outline w-full"
             placeholder="저자 이름 입력"
+            errors={[]}
           />
         </div>
         <div className="flex flex-col mb-[56px] gap-6">
@@ -82,12 +83,14 @@ export default function CreateForm() {
               id="sourceTitle"
               className="textField-outline w-full"
               placeholder="출처 제목 입력"
+              errors={[]}
             />
             <TextField
               type="text"
               id="sourceURL"
               className="textField-outline w-full"
               placeholder="URL (ex. https://www.website.com)"
+              errors={[]}
             />
           </div>
         </div>
@@ -99,10 +102,11 @@ export default function CreateForm() {
             <TextField
               type="text"
               id="tags"
-              value={[...tags]}
+              defaultValue={[...tags]}
               className="textField-outline"
               placeholder="입력하여 태그 검색 (최대 10자)"
               onFocus={() => setIsTagFocused(true)}
+              errors={[]}
             />
           )}
           {isTagFocused && (
@@ -111,6 +115,7 @@ export default function CreateForm() {
                 type="text"
                 className="flex-grow px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="입력하여 태그 검색 (최대 10자)"
+                errors={[]}
               />
               <Button
                 type="button"
