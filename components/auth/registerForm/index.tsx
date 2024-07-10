@@ -1,17 +1,21 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import FormField from "../FormField";
 import AuthButton from "../AuthButton";
 import SocialBox from "../socialBox";
 import { useFormState } from "react-dom";
 import { createAccount } from "./actions";
-interface IRegisterFormProps {}
 
-const RegisterForm: React.FC<IRegisterFormProps> = (props) => {
+export default function RegisterForm() {
   const [state, dispatch] = useFormState(createAccount, null);
-
-  console.log(state);
+  const [formState, setFormState] = useState({
+    email: "",
+    password: "",
+    confirmPassword: "",
+    nickName: "",
+  });
+  const [isFormValid, setIsFormValid] = useState(false);
 
   const formFields = [
     {
@@ -42,17 +46,32 @@ const RegisterForm: React.FC<IRegisterFormProps> = (props) => {
     },
   ];
 
+  useEffect(() => {
+    const validateForm = () => {
+      const isAllFieldsFilled = Object.values(formState).every(Boolean);
+      setIsFormValid(isAllFieldsFilled);
+    };
+
+    validateForm();
+  }, [formState]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormState((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
   return (
     <>
       <form action={dispatch} className="flex flex-col gap-4 w-[640px]">
         {formFields.map((field, index) => (
-          <FormField key={index} {...field} />
+          <FormField key={index} {...field} onChange={handleChange} />
         ))}
-        <AuthButton>가입하기</AuthButton>
+        <AuthButton isFormValid={isFormValid}>가입하기</AuthButton>
       </form>
       <SocialBox />
     </>
   );
-};
-
-export default RegisterForm;
+}

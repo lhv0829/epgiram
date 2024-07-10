@@ -1,15 +1,20 @@
 "use client";
 
-import TextField from "@/components/core/input/textField";
 import Link from "next/link";
-import { useFormState, useFormStatus } from "react-dom";
+import { useFormState } from "react-dom";
 import { login } from "./actions";
 import SocialBox from "../socialBox";
 import AuthButton from "../AuthButton";
 import FormField from "../FormField";
-interface IAuthFOrmProps {}
-export default function LoginForm(props: IAuthFOrmProps) {
+import { useEffect, useState } from "react";
+
+export default function LoginForm() {
   const [state, dispatch] = useFormState(login, null);
+  const [formState, setFormState] = useState({
+    email: "",
+    password: "",
+  });
+  const [isFormValid, setIsFormValid] = useState(false);
   const formFields = [
     {
       label: "이메일",
@@ -25,13 +30,29 @@ export default function LoginForm(props: IAuthFOrmProps) {
       errors: state?.fieldErrors.password,
     },
   ];
+  useEffect(() => {
+    const validateForm = () => {
+      const isAllFieldsFilled = Object.values(formState).every(Boolean);
+      setIsFormValid(isAllFieldsFilled);
+    };
+
+    validateForm();
+  }, [formState]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormState((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
   return (
     <>
       <form action={dispatch} className="flex flex-col gap-4 w-[640px]">
         {formFields.map((field, index) => (
-          <FormField key={index} {...field} />
+          <FormField key={index} onChange={handleChange} {...field} />
         ))}
-        <AuthButton>로그인</AuthButton>
+        <AuthButton isFormValid={isFormValid}>로그인</AuthButton>
       </form>
       {/**로그인 페이지에서만 나와야함. */}
       <div className="text-right text-xl font-medium ">

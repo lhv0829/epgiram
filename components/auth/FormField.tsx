@@ -7,6 +7,7 @@ interface FormFieldProps {
   name: string;
   placeholder: string;
   type?: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   errors?: string[];
 }
 
@@ -15,6 +16,7 @@ const FormField: React.FC<FormFieldProps> = ({
   name,
   placeholder,
   type = "text",
+  onChange,
   errors = [],
 }) => {
   const error = errors.length > 0 ? true : false;
@@ -23,6 +25,7 @@ const FormField: React.FC<FormFieldProps> = ({
       <label htmlFor={name}>{label}</label>
       <TextField
         className="textField-solid"
+        onChange={onChange}
         name={name}
         placeholder={placeholder}
         type={type}
