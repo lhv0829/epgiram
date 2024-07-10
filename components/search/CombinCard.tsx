@@ -1,46 +1,63 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
+import { useSearchParams } from "next/navigation";
 import Mark from "mark.js";
 
 interface ICombinCardProps {}
 
 export default function CombinCard(props: ICombinCardProps) {
-  const router = useRouter();
   const contentRef = useRef<HTMLDivElement>(null);
   const authorRef = useRef<HTMLDivElement>(null);
   const tagRef = useRef<HTMLDivElement>(null);
-  const query = new URLSearchParams(window.location.search);
-  const word = query.get("word");
+  const params = useSearchParams();
 
   useEffect(() => {
-    if (word) {
+    const query = params.get("word");
+
+    if (query) {
+      const markInstances = [];
+
       if (contentRef.current) {
         const markInstance = new Mark(contentRef.current);
-        markInstance.mark(word, {
-          element: "span",
-          className: "text-illust-blue",
+        markInstance.unmark({
+          done: () => {
+            markInstance.mark(query, {
+              element: "span",
+              className: "text-illust-blue",
+            });
+          },
         });
+        markInstances.push(markInstance);
       }
 
       if (authorRef.current) {
         const markInstance = new Mark(authorRef.current);
-        markInstance.mark(word, {
-          element: "span",
-          className: "text-illust-blue",
+        markInstance.unmark({
+          done: () => {
+            markInstance.mark(query, {
+              element: "span",
+              className: "text-illust-blue",
+            });
+          },
         });
+        markInstances.push(markInstance);
       }
 
       if (tagRef.current) {
         const markInstance = new Mark(tagRef.current);
-        markInstance.mark(word, {
-          element: "span",
-          className: "text-illust-blue",
+        markInstance.unmark({
+          done: () => {
+            markInstance.mark(query, {
+              element: "span",
+              className: "text-illust-blue",
+            });
+          },
         });
+        markInstances.push(markInstance);
       }
     }
-  }, [word]);
+  }, [params]);
 
   return (
     <div className="p-6 text-xl border-b-gray-100 border-b">
