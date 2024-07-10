@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
-import "../globals.css";
-import Gnb from "@/components/core/Gnb";
 import { Metadata } from "next";
+import Gnb from "@/components/core/Gnb";
+import "../globals.css";
 
 export const metadata: Metadata = {
   title: {

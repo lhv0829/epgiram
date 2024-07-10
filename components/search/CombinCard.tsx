@@ -3,8 +3,14 @@
 import { useEffect, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import Mark from "mark.js";
+import Link from "next/link";
 
-interface ICombinCardProps {}
+interface ICombinCardProps {
+  id: string;
+  content: string;
+  author: string;
+  tags: string[];
+}
 
 export default function CombinCard(props: ICombinCardProps) {
   const contentRef = useRef<HTMLDivElement>(null);
@@ -60,17 +66,21 @@ export default function CombinCard(props: ICombinCardProps) {
   }, [params]);
 
   return (
-    <div className="p-6 text-xl border-b-gray-100 border-b">
+    <Link
+      href={`/epigram/${props.id}`}
+      className="block p-6 text-xl border-b-gray-100 border-b"
+    >
       <div ref={contentRef} className="flex flex-col gap-6 font-iropke text-xl">
-        <p>
-          이 세상에는 위대한 진실이 하나 있어. 무언가를 온 마음을 다해 원한다면,
-          반드시 그렇게 된다는 거야.
-        </p>
-        <span ref={authorRef}>- 파우울로 코엘료 -</span>
+        <p>{props.content}</p>
+        <span ref={authorRef}>- {props.author} -</span>
       </div>
       <div ref={tagRef} className="text-end">
-        <span className="text-blue-400">#새로운영감</span>
+        {props.tags.map((tag, index) => (
+          <span key={index} className="text-blue-400 ml-3">
+            {tag}
+          </span>
+        ))}
       </div>
-    </div>
+    </Link>
   );
 }

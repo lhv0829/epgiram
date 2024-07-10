@@ -32,7 +32,9 @@ export default function Gnb(props: IGnbprops) {
 
   return (
     <nav className="flex items-center justify-between w-full px-[120px] py-[26px] border-b border-line-#CFDBEA">
-      {pathParts === "create" || pathParts === "update" ? (
+      {pathParts === "create" ||
+      pathParts === "update" ||
+      pathParts === "search" ? (
         <Link href={"/epigram"} className="text-base font-bold">
           <Image src="/icons/left.svg" alt="back icon" width={36} height={36} />
         </Link>

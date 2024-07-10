@@ -1,5 +1,5 @@
 "use server";
-
+import { redirect } from "next/navigation";
 import { PASSWORD_REGEX } from "@/lib/regex";
 import { z } from "zod";
 
@@ -21,5 +21,6 @@ export async function login(prev: any, formData: FormData) {
     return result.error.flatten();
   } else {
     console.log(result.data);
+    redirect("epigram");
   }
 }
