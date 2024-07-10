@@ -1,12 +1,12 @@
 "use client";
 
-import Link from "next/link";
+import { useEffect, useState } from "react";
 import { useFormState } from "react-dom";
+import Link from "next/link";
 import { login } from "./actions";
 import SocialBox from "../socialBox";
 import AuthButton from "../AuthButton";
 import FormField from "../FormField";
-import { useEffect, useState } from "react";
 
 export default function LoginForm() {
   const [state, dispatch] = useFormState(login, null);
@@ -54,7 +54,6 @@ export default function LoginForm() {
         ))}
         <AuthButton isFormValid={isFormValid}>로그인</AuthButton>
       </form>
-      {/**로그인 페이지에서만 나와야함. */}
       <div className="text-right text-xl font-medium ">
         <span className="text-blue-400 mr-2">회원이 아니신가요?</span>
         <Link href={"../register"} className="underline">

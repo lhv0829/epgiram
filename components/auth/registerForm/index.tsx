@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useFormState } from "react-dom";
 import FormField from "../FormField";
 import AuthButton from "../AuthButton";
 import SocialBox from "../socialBox";
-import { useFormState } from "react-dom";
 import { createAccount } from "./actions";
 
 export default function RegisterForm() {

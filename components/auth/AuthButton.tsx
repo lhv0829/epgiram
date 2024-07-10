@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
-import { MainButton } from "../ui/MainButton";
 import { useFormStatus } from "react-dom";
+import { MainButton } from "../ui/MainButton";
 
 interface IAuthButtonProps {
   isFormValid: boolean;
