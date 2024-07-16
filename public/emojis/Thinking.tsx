@@ -11,16 +11,16 @@ const Thinking = ({ width = 32, height = 33, fill = "none" }: Emoji) => {
       <path
         d="M22.0234 8.5002C22.0234 8.5002 20.9334 8.70078 19.6546 9.47807C18.3759 10.2553 17.5626 10.9766 17.5626 10.9766"
         stroke="#3E414D"
-        stroke-width="1.79211"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="1.79211"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M8.9379 12.5089C8.9379 12.5089 9.9977 12.2671 11.4926 12.1998C12.0198 12.176 12.492 12.2039 12.8824 12.25"
         stroke="#3E414D"
-        stroke-width="1.79211"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="1.79211"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M11.375 17C12.3415 17 13.125 16.2165 13.125 15.25C13.125 14.2835 12.3415 13.5 11.375 13.5C10.4085 13.5 9.625 14.2835 9.625 15.25C9.625 16.2165 10.4085 17 11.375 17Z"
@@ -30,8 +30,8 @@ const Thinking = ({ width = 32, height = 33, fill = "none" }: Emoji) => {
       <path
         d="M19.9141 22.0078C18.5917 21.1127 16.9381 20.6949 15.2312 20.9574C14.8844 21.0107 14.5482 21.0902 14.2242 21.1935"
         stroke="#9A695E"
-        stroke-width="2.15054"
-        stroke-linecap="round"
+        strokeWidth="2.15054"
+        strokeLinecap="round"
       />
     </svg>
   );

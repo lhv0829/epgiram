@@ -7,10 +7,10 @@ import { cn } from "@/lib/utils";
 const buttonVariants = cva("inline-flex items-center justify-center w-fit whitespace-nowrap rounded-[100px] transition-colors ", {
   variants: {
     variant: {
-      icon: "gap-1 border border-line-200 text-blue-400",
-      text: "border border-line-200 text-blue-400",
+      icon: "gap-1 border border-line-#CFDBEA text-blue-400",
+      text: "border border-line-#CFDBEA text-blue-400",
       like: "gap-1 bg-black-600 text-blue-100",
-      share: "gap-1.5 bg-line-100 text-gray-300",
+      share: "gap-1.5 bg-line-#F2F2F2 text-gray-300",
     },
     size: {
       sm: "px-3.5 py-1.5",
