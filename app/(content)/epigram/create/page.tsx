@@ -1,4 +1,4 @@
-import CreateForm from "@/components/epigram/create/CreateForm";
+import CreateForm from "@/components/epigram/create/createForm";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

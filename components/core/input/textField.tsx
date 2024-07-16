@@ -2,20 +2,26 @@ import { InputHTMLAttributes, forwardRef } from "react";
 
 interface ITextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   error?: boolean;
+  errors?: string[];
 }
 
 const TextField = forwardRef<HTMLInputElement, ITextFieldProps>(
-  ({ error, ...props }, ref) => {
+  ({ error, errors, ...rest }, ref) => {
     return (
       <div className="flex flex-col flex-grow text-end">
         <input
-          {...props}
+          {...rest}
           ref={ref}
-          className={`${props.className || ""} ${error ? "error" : ""}`}
+          className={`${rest.className || ""} ${error ? "error" : ""}`}
         />
-        <span className={` ${error ? "text-error visible" : "hidden"}`}>
-          error
-        </span>
+        {errors?.map((message, key) => (
+          <span
+            key={key}
+            className={` ${error ? "text-error visible" : "hidden"}`}
+          >
+            {message}
+          </span>
+        ))}
       </div>
     );
   }

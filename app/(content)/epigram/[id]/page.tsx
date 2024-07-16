@@ -12,5 +12,5 @@ export async function generateMetadata({
 }
 
 export default function EpigramDetail() {
-  return <div></div>;
+  return <div>detail</div>;
 }
