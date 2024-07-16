@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useFormState } from "react-dom";
-import FormField from "../FormField";
+import FormField from "@/components/core/input/FormField";
 import AuthButton from "../AuthButton";
 import SocialBox from "../socialBox";
 import { createAccount } from "./actions";

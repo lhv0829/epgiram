@@ -17,7 +17,6 @@ export default function Home() {
       <div className=" text-2xl font-pre">landing 확인 Pretendard</div>
       <div className=" text-2xl font-iropke">landing 확인 Iropke Batang</div>
       <EmotionSelect />
-      <SearchWordChip />
       <EditButton />
       <RadioDemo />
       <SwitchDemo />

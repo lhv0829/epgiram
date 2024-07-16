@@ -3,10 +3,10 @@
 import { useEffect, useState } from "react";
 import { useFormState } from "react-dom";
 import Link from "next/link";
-import { login } from "./actions";
+import FormField from "@/components/core/input/FormField";
 import SocialBox from "../socialBox";
 import AuthButton from "../AuthButton";
-import FormField from "../FormField";
+import { login } from "./actions";
 
 export default function LoginForm() {
   const [state, dispatch] = useFormState(login, null);

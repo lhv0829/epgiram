@@ -1,19 +1,21 @@
 // FormField.tsx
 import React from "react";
-import TextField from "../core/input/textField";
+import TextField from "./textField";
 
 interface FormFieldProps {
   label: string;
   name: string;
+  className?: string;
   placeholder: string;
   type?: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   errors?: string[];
 }
 
 const FormField: React.FC<FormFieldProps> = ({
   label,
   name,
+  className = "textField-solid",
   placeholder,
   type = "text",
   onChange,
@@ -24,7 +26,7 @@ const FormField: React.FC<FormFieldProps> = ({
     <>
       <label htmlFor={name}>{label}</label>
       <TextField
-        className="textField-solid"
+        className={className}
         onChange={onChange}
         name={name}
         placeholder={placeholder}
