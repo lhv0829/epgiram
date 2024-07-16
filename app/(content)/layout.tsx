@@ -4,6 +4,8 @@ import Gnb from "@/components/core/Gnb";
 import "../globals.css";
 import { FormProvider } from "@/contexts/FormProvider";
 import { ThemeProvider } from "@/contexts/ThemeProvider";
+import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 
 export const metadata: Metadata = {
   title: {
@@ -13,6 +15,10 @@ export const metadata: Metadata = {
 };
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
+  // const cookiestore = cookies().get("accessToken");
+  // if (!cookiestore?.value!) {
+  //   redirect("/login");
+  // }
   return (
     <html lang="ko">
       <ThemeProvider>

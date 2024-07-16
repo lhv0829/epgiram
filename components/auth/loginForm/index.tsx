@@ -6,7 +6,20 @@ import Link from "next/link";
 import FormField from "@/components/core/input/FormField";
 import SocialBox from "../socialBox";
 import AuthButton from "../AuthButton";
+import { z } from "zod";
 import { login } from "./actions";
+import { redirect } from "next/navigation";
+
+// Zod 스키마 정의
+const formSchema = z.object({
+  email: z
+    .string()
+    .min(1, { message: "이메일은 필수 입력입니다." })
+    .email("이메일 형식으로 작성해 주세요."),
+  password: z.string().min(1, "비밀번호는 필수 입력입니다."),
+});
+
+// login 함수
 
 export default function LoginForm() {
   const [state, dispatch] = useFormState(login, null);
@@ -14,30 +27,26 @@ export default function LoginForm() {
     email: "",
     password: "",
   });
+  const [fieldErrors, setFieldErrors] = useState({
+    email: [],
+    password: [],
+  });
   const [isFormValid, setIsFormValid] = useState(false);
   const formFields = [
     {
       label: "이메일",
       name: "email",
       placeholder: "이메일",
-      errors: state?.fieldErrors.email,
+      errors: fieldErrors.email,
     },
     {
       label: "비밀번호",
       name: "password",
       placeholder: "비밀번호",
       type: "password",
-      errors: state?.fieldErrors.password,
+      errors: fieldErrors.password,
     },
   ];
-  useEffect(() => {
-    const validateForm = () => {
-      const isAllFieldsFilled = Object.values(formState).every(Boolean);
-      setIsFormValid(isAllFieldsFilled);
-    };
-
-    validateForm();
-  }, [formState]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -46,11 +55,53 @@ export default function LoginForm() {
       [name]: value,
     }));
   };
+  const handleBlur = async (e: React.FocusEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    let errors: string[] = [];
+
+    try {
+      await formSchema.parseAsync({ ...formState, [name]: value });
+      errors = [];
+    } catch (err: any) {
+      const fieldError = err.errors.find(
+        (error: any) => error.path[0] === name
+      );
+      errors = fieldError ? [fieldError.message] : [];
+    }
+
+    setFieldErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: errors,
+    }));
+
+    validateForm();
+  };
+
+  const validateForm = async () => {
+    try {
+      await formSchema.parseAsync(formState);
+      setIsFormValid(true);
+    } catch {
+      setIsFormValid(false);
+    }
+  };
+
+  useEffect(() => {
+    if (state !== null && state.redirect) {
+      redirect("/epigrams");
+    }
+  }, [state]);
+
   return (
     <>
       <form action={dispatch} className="flex flex-col gap-4 w-[640px]">
         {formFields.map((field, index) => (
-          <FormField key={index} onChange={handleChange} {...field} />
+          <FormField
+            key={index}
+            {...field}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
         ))}
         <AuthButton isFormValid={isFormValid}>로그인</AuthButton>
       </form>
