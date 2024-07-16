@@ -11,10 +11,9 @@ export async function POST(request: NextRequest) {
       body: JSON.stringify(body),
     });
     const result = await response.json();
-    console.log(result);
-    if (!response.ok)
-      return NextResponse.json({ message: "Failed", result, redirect: false });
-    return NextResponse.json({ message: "successful", result, redirect: true });
+    if (response.status !== 200)
+      return NextResponse.json({ ok: false, result });
+    return NextResponse.json({ ok: true, result });
   } catch (e) {
     console.log(e);
   }

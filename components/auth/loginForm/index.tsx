@@ -19,19 +19,28 @@ const formSchema = z.object({
   password: z.string().min(1, "비밀번호는 필수 입력입니다."),
 });
 
-// login 함수
+interface FormState {
+  email: string;
+  password: string;
+}
+
+interface FieldErrors {
+  email: string[];
+  password: string[];
+}
 
 export default function LoginForm() {
   const [state, dispatch] = useFormState(login, null);
-  const [formState, setFormState] = useState({
+  const [formState, setFormState] = useState<FormState>({
     email: "",
     password: "",
   });
-  const [fieldErrors, setFieldErrors] = useState({
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({
     email: [],
     password: [],
   });
   const [isFormValid, setIsFormValid] = useState(false);
+
   const formFields = [
     {
       label: "이메일",
@@ -55,6 +64,7 @@ export default function LoginForm() {
       [name]: value,
     }));
   };
+
   const handleBlur = async (e: React.FocusEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     let errors: string[] = [];
@@ -87,8 +97,12 @@ export default function LoginForm() {
   };
 
   useEffect(() => {
-    if (state !== null && state.redirect) {
-      redirect("/epigrams");
+    if (state !== null) {
+      const { details } = state;
+      setFieldErrors((prevErrors) => ({
+        ...prevErrors,
+        email: ["이메일 혹은 비밀번호를 확인해주세요."],
+      }));
     }
   }, [state]);
 
@@ -105,9 +119,9 @@ export default function LoginForm() {
         ))}
         <AuthButton isFormValid={isFormValid}>로그인</AuthButton>
       </form>
-      <div className="text-right text-xl font-medium ">
+      <div className="text-right text-xl font-medium">
         <span className="text-blue-400 mr-2">회원이 아니신가요?</span>
-        <Link href={"../register"} className="underline">
+        <Link href="../register" className="underline">
           가입하기
         </Link>
       </div>
