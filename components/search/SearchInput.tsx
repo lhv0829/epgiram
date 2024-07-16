@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import SearchIcon from "@/public/icons/search.svg";
-import { useSearch } from "@/contexts/SearchContext";
+import { useSearch } from "@/contexts/SearchProvider";
 import { useRouter } from "next/navigation";
 
 export default function SearchInput() {

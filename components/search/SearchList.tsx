@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import SearchWordChip from "../SearchWordChip";
-import { useSearch } from "@/contexts/SearchContext";
+import { useSearch } from "@/contexts/SearchProvider";
 
 interface ISearchListProps {}
 export default function SearchList(props: ISearchListProps) {

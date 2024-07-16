@@ -2,7 +2,8 @@ import { ReactNode } from "react";
 import { Metadata } from "next";
 import Gnb from "@/components/core/Gnb";
 import "../globals.css";
-import { FormProvider } from "@/contexts/FormContext";
+import { FormProvider } from "@/contexts/FormProvider";
+import { ThemeProvider } from "@/contexts/ThemeProvider";
 
 export const metadata: Metadata = {
   title: {
@@ -14,12 +15,12 @@ export const metadata: Metadata = {
 export default function AuthLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="ko">
-      <body className="flex items-center flex-col bg-background">
+      <ThemeProvider>
         <FormProvider>
           <Gnb />
           {children}
         </FormProvider>
-      </body>
+      </ThemeProvider>
     </html>
   );
 }

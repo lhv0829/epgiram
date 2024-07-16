@@ -1,6 +1,6 @@
 "use client";
 
-import { SearchProvider } from "@/contexts/SearchContext";
+import { SearchProvider } from "@/contexts/SearchProvider";
 import SearchController from "./SearchController";
 import SearchInput from "./SearchInput";
 import SearchList from "./SearchList";
