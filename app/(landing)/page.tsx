@@ -20,7 +20,6 @@ export default function Home() {
       <EditButton />
       <RadioDemo />
       <SwitchDemo />
-      <ScrollToTopButton />
       <TodayEmotion />
       <Calendar />
       <EmotionChart />

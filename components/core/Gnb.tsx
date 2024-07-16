@@ -28,8 +28,7 @@ export default function Gnb(props: IGnbprops) {
 
   const title = getTitle(pathParts);
 
-  const showLogo =
-    pathParts === undefined || pathParts === "" || pathParts === "epigram";
+  const showLogo = pathParts === undefined || pathParts === "" || pathParts === "epigram";
 
   const { formRef } = useFormData();
 
@@ -40,36 +39,23 @@ export default function Gnb(props: IGnbprops) {
   };
 
   return (
-    <nav className="flex items-center justify-between w-full px-[120px] py-[26px] border-b border-line-#CFDBEA">
-      {pathParts === "create" ||
-      pathParts === "update" ||
-      pathParts === "search" ? (
+    <nav className="flex items-center justify-between w-full px-[120px] py-[26px] border-b border-line-#CFDBEA bg-white">
+      {pathParts === "create" || pathParts === "update" || pathParts === "search" ? (
         <Link href={"/epigram"} className="text-base font-bold">
           <Image src="/icons/left.svg" alt="back icon" width={36} height={36} />
         </Link>
       ) : (
         <Link href={"/search"}>
-          <Image
-            src="/icons/search.svg"
-            alt="search icon"
-            width={36}
-            height={36}
-          />
+          <Image src="/icons/search.svg" alt="search icon" width={36} height={36} />
         </Link>
       )}
       <div className="flex items-center gap-2">
-        {showLogo && (
-          <Image src="/icons/logo.svg" alt="logo" width={48} height={48} />
-        )}
+        {showLogo && <Image src="/icons/logo.svg" alt="logo" width={48} height={48} />}
         <span className="text-[26px] font-bold">{title}</span>
       </div>
       <div className="flex items-center gap-2">
         {pathParts === "create" ? (
-          <button
-            type="submit"
-            className="text-base font-bold text-white px-4 border h-11 rounded-lg bg-black-500"
-            onClick={handleSubmit}
-          >
+          <button type="submit" className="text-base font-bold text-white px-4 border h-11 rounded-lg bg-black-500" onClick={handleSubmit}>
             완료
           </button>
         ) : pathParts === "update" ? null : (

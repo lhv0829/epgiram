@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 export default function AuthLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="ko">
-      <body className="flex items-center flex-col">
+      <body className="flex items-center flex-col bg-background">
         <FormProvider>
           <Gnb />
           {children}
