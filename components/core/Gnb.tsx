@@ -1,6 +1,8 @@
 "use client";
 
+import { useFormData } from "@/contexts/FormContext";
 import Image from "next/image";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 interface IGnbprops {}
@@ -28,16 +30,24 @@ export default function Gnb(props: IGnbprops) {
 
   const showLogo = pathParts === undefined || pathParts === "" || pathParts === "epigram";
 
+  const { formRef } = useFormData();
+
+  const handleSubmit = () => {
+    if (formRef.current) {
+      formRef.current.submit();
+    }
+  };
+
   return (
     <nav className="flex items-center justify-between w-full px-[120px] py-[26px] border-b border-line-#CFDBEA bg-white">
-      {pathParts === "create" || pathParts === "update" ? (
-        <button className="text-base font-bold">
+      {pathParts === "create" || pathParts === "update" || pathParts === "search" ? (
+        <Link href={"/epigram"} className="text-base font-bold">
           <Image src="/icons/left.svg" alt="back icon" width={36} height={36} />
-        </button>
+        </Link>
       ) : (
-        <button>
+        <Link href={"/search"}>
           <Image src="/icons/search.svg" alt="search icon" width={36} height={36} />
-        </button>
+        </Link>
       )}
       <div className="flex items-center gap-2">
         {showLogo && <Image src="/icons/logo.svg" alt="logo" width={48} height={48} />}
@@ -45,11 +55,13 @@ export default function Gnb(props: IGnbprops) {
       </div>
       <div className="flex items-center gap-2">
         {pathParts === "create" ? (
-          <button className="text-base font-bold text-white px-4 border h-11 rounded-lg bg-black-500">완료</button>
-        ) : pathParts === "update" ? null : (
-          <button>
-            <Image src="/icons/me.svg" alt="user icon" width={36} height={36} />
+          <button type="submit" className="text-base font-bold text-white px-4 border h-11 rounded-lg bg-black-500" onClick={handleSubmit}>
+            완료
           </button>
+        ) : pathParts === "update" ? null : (
+          <Link href={"/me"}>
+            <Image src="/icons/me.svg" alt="user icon" width={36} height={36} />
+          </Link>
         )}
       </div>
     </nav>

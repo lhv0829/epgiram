@@ -18,7 +18,7 @@
 
 @layer utilities {
   .notebook-background {
-    background: linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 90%, rgba(0, 0, 0, 0) 100%);
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 90%, rgba(245, 245, 245, 1) 100%);
     background-size: 100% 24px;
   }
 
@@ -42,16 +42,15 @@
   }
 
   .textField-outline {
-    @apply w-full h-16 px-4 rounded-xl bg-background border border-blue-300 text-black-950 text-xl outline-none placeholder:text-blue-400 hover:border-blue-500 error:border-error;
+    @apply w-full h-16 px-4 rounded-xl bg-blue-100 border border-blue-300 text-black-950 text-xl outline-none placeholder:text-blue-400 hover:border-blue-500 error:border-error;
   }
 
   .textField-solid {
-    @apply w-full h-16 px-4 rounded-xl bg-blue-200 text-black-950 text-xl outline-none placeholder:text-blue-400 border-0
-     error:border error:border-error;
+    @apply w-full h-16 px-4 rounded-xl bg-blue-200 text-black-950 text-xl outline-none placeholder:text-blue-400 border-0 error:border error:border-error;
   }
 
   .textarea-outline {
-    @apply w-full px-4 py-3 rounded-lg border border-line-#CFDBEA resize-none text-xl text-black-950 placeholder:text-blue-400 placeholder:text-xl focus:outline-none focus:ring-1 focus:ring-black-600 error:ring-1 error:ring-error;
+    @apply w-full px-4 py-3 bg-transparent rounded-lg border border-line-#CFDBEA resize-none text-xl text-black-950 placeholder:text-blue-400 placeholder:text-xl focus:outline-none focus:ring-1 focus:ring-black-600 error:ring-1 error:ring-error;
   }
 
   .textarea-solid {
