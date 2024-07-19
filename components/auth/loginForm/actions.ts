@@ -23,11 +23,11 @@ export async function login(prev: any, formData: FormData) {
 
     const { ok, result } = await response.json();
     if (!ok) {
-      return result;
+      return { message: result.message, ok };
     } else {
       cookies().set("accessToken", result.accessToken);
+      return { message: "", ok };
     }
-    return;
   } catch (e) {
     console.error(e);
     throw new Error("Failed");

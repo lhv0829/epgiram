@@ -2,15 +2,15 @@
 
 import { useEffect, useState } from "react";
 import { useFormState } from "react-dom";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { z } from "zod";
 import FormField from "@/components/core/input/FormField";
 import SocialBox from "../socialBox";
 import AuthButton from "../AuthButton";
-import { z } from "zod";
 import { login } from "./actions";
-import { redirect } from "next/navigation";
 
-// Zod 스키마 정의
+// Zod schema definition
 const formSchema = z.object({
   email: z
     .string()
@@ -30,7 +30,8 @@ interface FieldErrors {
 }
 
 export default function LoginForm() {
-  const [state, dispatch] = useFormState(login, null);
+  const router = useRouter();
+  const [state, dispatch] = useFormState(login, { message: "", ok: false });
   const [formState, setFormState] = useState<FormState>({
     email: "",
     password: "",
@@ -40,7 +41,6 @@ export default function LoginForm() {
     password: [],
   });
   const [isFormValid, setIsFormValid] = useState(false);
-
   const formFields = [
     {
       label: "이메일",
@@ -97,14 +97,16 @@ export default function LoginForm() {
   };
 
   useEffect(() => {
-    if (state !== null) {
-      const { details } = state;
+    if (state?.message !== "" && !state?.ok) {
       setFieldErrors((prevErrors) => ({
         ...prevErrors,
         email: ["이메일 혹은 비밀번호를 확인해주세요."],
       }));
     }
-  }, [state]);
+    if (state?.ok) {
+      router.push("/");
+    }
+  }, [state, router]);
 
   return (
     <>
