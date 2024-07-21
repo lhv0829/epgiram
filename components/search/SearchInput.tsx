@@ -14,7 +14,7 @@ export default function SearchInput() {
     event.preventDefault();
     if (inputValue.trim()) {
       addSearchWord(inputValue.trim());
-      router.push(`/search?word=${inputValue.trim()}`);
+      router.push(`/search?keyword=${inputValue.trim()}`);
       setInputValue("");
     }
   };
