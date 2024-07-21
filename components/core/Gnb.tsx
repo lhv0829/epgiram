@@ -13,7 +13,7 @@ export default function Gnb(props: IGnbprops) {
 
   const getTitle = (path?: string) => {
     switch (path) {
-      case "create":
+      case "addepigram":
         return "에피그램 만들기";
       case "me":
         return "내 정보";
@@ -41,7 +41,7 @@ export default function Gnb(props: IGnbprops) {
 
   return (
     <nav className="flex items-center justify-between w-full px-[120px] py-[26px] border-b border-line-#CFDBEA bg-white">
-      {pathParts === "create" ||
+      {pathParts === "addepigram" ||
       pathParts === "update" ||
       pathParts === "search" ? (
         <Link href={"/epigram"} className="text-base font-bold">
@@ -64,7 +64,7 @@ export default function Gnb(props: IGnbprops) {
         <span className="text-[26px] font-bold">{title}</span>
       </div>
       <div className="flex items-center gap-2">
-        {pathParts === "create" ? (
+        {pathParts === "addepigram" ? (
           <button
             type="submit"
             className="text-base font-bold text-white px-4 border h-11 rounded-lg bg-black-500"

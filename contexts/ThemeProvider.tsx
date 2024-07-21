@@ -8,23 +8,18 @@ interface ThemeProviderProps {
   children: ReactNode;
 }
 
+const bluePaths = ["addepigram", "search"];
+
 export function ThemeProvider({ children }: ThemeProviderProps) {
   const pathName = usePathname();
   const pathParts = pathName.split("/").pop();
 
-  const getBackgroundClass = () => {
-    switch (pathParts) {
-      case "addepigram":
-        return "bg-blue-100";
-      case "search":
-        return "bg-blue-100";
-      default:
-        return "bg-background";
-    }
-  };
+  const backgroundClass = bluePaths.includes(pathParts as string)
+    ? "bg-blue-100"
+    : "bg-background";
 
   return (
-    <body className={`flex items-center flex-col ${getBackgroundClass()}`}>
+    <body className={`flex items-center flex-col ${backgroundClass}`}>
       {children}
     </body>
   );
