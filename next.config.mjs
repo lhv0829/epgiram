@@ -10,6 +10,9 @@ const nextConfig = {
 
     return config;
   },
+  images: {
+    domains:["placehold.co"]
+  }
 };
 
 export default nextConfig;

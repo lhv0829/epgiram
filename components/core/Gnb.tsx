@@ -4,6 +4,7 @@ import { useFormData } from "@/contexts/FormProvider";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import GnbButton from "./GnbButton";
 
 interface IGnbprops {}
 
@@ -31,14 +32,6 @@ export default function Gnb(props: IGnbprops) {
   const showLogo =
     pathParts === undefined || pathParts === "" || pathParts === "epigram";
 
-  const { formRef } = useFormData();
-
-  const handleSubmit = () => {
-    if (formRef.current) {
-      formRef.current.submit();
-    }
-  };
-
   return (
     <nav className="flex items-center justify-between w-full px-[120px] py-[26px] border-b border-line-#CFDBEA bg-white">
       {pathParts === "addepigram" ||
@@ -65,13 +58,7 @@ export default function Gnb(props: IGnbprops) {
       </div>
       <div className="flex items-center gap-2">
         {pathParts === "addepigram" ? (
-          <button
-            type="submit"
-            className="text-base font-bold text-white px-4 border h-11 rounded-lg bg-black-500"
-            onClick={handleSubmit}
-          >
-            완료
-          </button>
+          <GnbButton />
         ) : pathParts === "update" ? null : (
           <Link href={"/me"}>
             <Image src="/icons/me.svg" alt="user icon" width={36} height={36} />

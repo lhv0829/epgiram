@@ -2,8 +2,6 @@ import { ReactNode } from "react";
 import { Metadata } from "next";
 import "../globals.css";
 import Image from "next/image";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: {
@@ -13,10 +11,6 @@ export const metadata: Metadata = {
 };
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
-  // const cookiestore = cookies().get("accessToken");
-  // if (cookiestore?.value) {
-  //   redirect("/epigrams");
-  // }
   return (
     <html lang="ko" className="bg-background">
       <body className="">
