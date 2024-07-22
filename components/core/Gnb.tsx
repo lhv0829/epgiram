@@ -59,7 +59,7 @@ export default function Gnb(props: IGnbprops) {
             완료
           </button>
         ) : pathParts === "update" ? null : (
-          <Link href={"/me"}>
+          <Link href={"/mypage"}>
             <Image src="/icons/me.svg" alt="user icon" width={36} height={36} />
           </Link>
         )}

@@ -22,6 +22,13 @@
     background-size: 100% 24px;
   }
 
+  .notebook-pattern {
+    background-color: #ffffff;
+    opacity: 1;
+    background-size: 38px 38px;
+    background-image: repeating-linear-gradient(0deg, #f2f2f2, #f2f2f2 1.7000000000000002px, #ffffff 1.7000000000000002px, #ffffff);
+  }
+
   .zigzag-pattern {
     @apply relative bg-white h-7 shadow-lg z-10;
   }
@@ -29,7 +36,7 @@
   .zigzag-pattern::after {
     content: "";
     @apply block absolute top-full left-0 right-0 h-7;
-    background: linear-gradient(-135deg, #fff 15px, transparent 0) 0 15px, linear-gradient(135deg, #fff 15px, transparent 0) 0 15px;
+    background: linear-gradient(-150deg, #fff 15px, transparent 0) 0 15px, linear-gradient(150deg, #fff 15px, transparent 0) 0 15px;
     background-position: top left;
     background-repeat: repeat-x;
     background-size: 30px 30px;

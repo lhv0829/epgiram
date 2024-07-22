@@ -46,7 +46,7 @@ export default function Me() {
           </TabsList>
           <TabsContent value="epigrams">
             <div className="flex flex-col gap-12">
-              <Card
+              {/* <Card
                 {...{
                   sentence:
                     "이 세상에는 위대한 진실이 하나 있어. 무언가를 온 마음을 다해 원한다면, 반드시 그렇게 된다는 거야. 무언가를 바라는 마음은 곧 우주의 마음으로부터 비롯된 것이기 때문이지.",
@@ -69,7 +69,7 @@ export default function Me() {
                   author: "파울로 코엘료",
                   tags: ["#나아가야할때", "#꿈을이루고싶을때"],
                 }}
-              />
+              /> */}
             </div>
           </TabsContent>
           <TabsContent value="comments">

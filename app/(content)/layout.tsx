@@ -3,6 +3,7 @@ import { Metadata } from "next";
 import Gnb from "@/components/core/Gnb";
 import "../globals.css";
 import { FormProvider } from "@/contexts/FormContext";
+import ReactQueryProviders from "@/contexts/ReactQueryProvider";
 
 export const metadata: Metadata = {
   title: {
@@ -17,7 +18,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
       <body className="flex items-center flex-col bg-background">
         <FormProvider>
           <Gnb />
-          {children}
+          <ReactQueryProviders>{children}</ReactQueryProviders>
         </FormProvider>
       </body>
     </html>
