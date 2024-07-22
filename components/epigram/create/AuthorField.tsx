@@ -7,11 +7,19 @@ interface IAuthorFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   handleRadioChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   author: string;
   authorType: string;
-  errorMessage?: string[];
+  error: boolean;
+  errors?: string[];
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export default function AuthorField(props: IAuthorFieldProps) {
+export default function AuthorField({
+  handleRadioChange,
+  author,
+  authorType,
+  error,
+  errors = [],
+  onChange,
+}: IAuthorFieldProps) {
   return (
     <>
       <label htmlFor="author" className="text-2xl font-semibold">
@@ -21,7 +29,7 @@ export default function AuthorField(props: IAuthorFieldProps) {
         defaultValue="default"
         className="flex items-center space-x-2 [&_label]:text-xl"
         name="authorType"
-        onChange={props.handleRadioChange}
+        onChange={handleRadioChange}
       >
         <RadioGroupItem value="default" id="default" />
         <Label htmlFor="default">직접 입력</Label>
@@ -35,17 +43,21 @@ export default function AuthorField(props: IAuthorFieldProps) {
           type="text"
           id="authorName"
           className={`textField-outline w-full ${
-            props.authorType !== "default"
-              ? "bg-gray-100 cursor-not-allowed"
-              : ""
+            authorType !== "default" ? "bg-gray-100 cursor-not-allowed" : ""
           }`}
           placeholder="저자 이름 입력"
           name="author"
-          value={props.author}
-          onChange={props.onChange}
-          readOnly={props.authorType !== "default"}
+          value={author}
+          onChange={onChange}
+          error={error}
+          errors={errors}
+          readOnly={authorType !== "default"}
         />
-        <span className="text-red-500">{props.errorMessage}</span>
+        {/* {errors?.map((error, index) => (
+          <span key={index} className="text-red-500">
+            {error}
+          </span>
+        ))} */}
       </div>
     </>
   );

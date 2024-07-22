@@ -26,10 +26,11 @@ const formDataSchema = z.object({
     })
     .max(500, "내용은 500자 이내로 입력해주세요."),
   author: z.string().min(1, "작성자 이름을 입력하세요."),
-  referenceTitle: z.string().optional(),
-  referenceUrl: z
-    .union([z.string().url("유효한 URL을 입력하세요."), z.literal("")])
-    .optional(),
+  referenceTitle: z.string(),
+  referenceUrl: z.union([
+    z.string().url("유효한 URL을 입력하세요."),
+    z.literal(""),
+  ]),
   tags: z
     .string()
     .refine(checkTagLength, {
@@ -62,9 +63,14 @@ export const formAction = async (prev: any, formData: FormData) => {
       "Content-Type": "application/json",
       Authorization: `Bearer ${cookies().get("accessToken")?.value}`,
     },
-    body: JSON.stringify(result.data),
+    body: JSON.stringify({
+      refreshToken: cookies().get("refreshToken")?.value,
+      body: result.data,
+    }),
   }).then((res) => res.json());
 
-  //유효성 검사 성공하고, 폼 제출 성공 시
+  console.log("response", response);
+
+  // 유효성 검사 성공하고, 폼 제출 성공 시
   redirect(`/epigrams/${response.redirectId}`);
 };

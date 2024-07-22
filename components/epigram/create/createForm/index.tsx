@@ -17,6 +17,30 @@ interface FormState {
   referenceUrl: string;
 }
 
+interface FieldErrors {
+  content?: string[] | undefined;
+  author?: string[] | undefined;
+  referenceTitle?: string[] | undefined;
+  referenceUrl?: string[] | undefined;
+  tags?: string[] | undefined;
+}
+
+const hasErrors = (fieldErrors: FieldErrors): { [key: string]: boolean } => {
+  const errorFlags: { [key: string]: boolean } = {
+    content: false,
+    author: false,
+    referenceTitle: false,
+    referenceUrl: false,
+    tags: false,
+  };
+
+  for (const [key, value] of Object.entries(fieldErrors)) {
+    errorFlags[key] = Array.isArray(value) ? value.length > 0 : !!value;
+  }
+
+  return errorFlags;
+};
+
 export default function CreateForm() {
   const [tags, setTags] = useState<string[]>([]);
   const [authorType, setAuthorType] = useState<string>("default");
@@ -48,6 +72,14 @@ export default function CreateForm() {
     }));
   };
 
+  const {
+    content,
+    author,
+    referenceTitle,
+    referenceUrl,
+    tags: errorTags,
+  } = hasErrors(state?.fieldErrors || {});
+
   const isFormSubmit =
     Object.values(formState).every(
       (state) => state !== undefined && state !== ""
@@ -63,6 +95,7 @@ export default function CreateForm() {
             rows={5}
             required={true}
             placeholder="500자 이내로 입력해주세요."
+            error={content}
             errorMessage={state?.fieldErrors?.content}
             onChange={handleInputChange}
           />
@@ -72,7 +105,8 @@ export default function CreateForm() {
             author={formState.author}
             authorType={authorType}
             handleRadioChange={handleRadioChange}
-            errorMessage={state?.fieldErrors.author}
+            error={author}
+            errors={state?.fieldErrors?.author}
             onChange={handleInputChange}
           />
         </div>
@@ -81,33 +115,41 @@ export default function CreateForm() {
             출처
           </label>
           <div className="flex flex-col gap-4">
-            <TextField
-              type="text"
-              id="referenceTitle"
-              className="textField-outline w-full"
-              placeholder="출처 제목 입력"
-              name="referenceTitle"
-              error={state?.fieldErrors.referenceTitle === null}
-              errors={state?.fieldErrors.referenceTitle}
-              onChange={handleInputChange}
-            />
-            <TextField
-              type="text"
-              id="referenceUrl"
-              className="textField-outline w-full"
-              placeholder="URL (ex. https://www.website.com)"
-              name="referenceUrl"
-              error={state?.fieldErrors.referenceUrl === null}
-              errors={state?.fieldErrors.referenceUrl}
-              onChange={handleInputChange}
-            />
+            <div>
+              <TextField
+                type="text"
+                id="referenceTitle"
+                className="textField-outline w-full"
+                placeholder="출처 제목 입력"
+                name="referenceTitle"
+                error={referenceTitle}
+                errors={state?.fieldErrors?.referenceTitle}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div>
+              <TextField
+                type="text"
+                id="referenceUrl"
+                className="textField-outline w-full"
+                placeholder="URL (ex. https://www.website.com)"
+                name="referenceUrl"
+                error={referenceUrl}
+                errors={state?.fieldErrors?.referenceUrl}
+                onChange={handleInputChange}
+              />
+            </div>
           </div>
         </div>
         <div className="flex flex-col mb-4 gap-6">
           <label htmlFor="tags" className="text-2xl font-semibold">
             태그
           </label>
-          <TagField errors={state?.fieldErrors?.tags} setTags={setTags} />
+          <TagField
+            error={errorTags}
+            errors={state?.fieldErrors?.tags}
+            setTags={setTags}
+          />
           <div className="flex gap-4 flex-wrap">
             <input
               type="text"

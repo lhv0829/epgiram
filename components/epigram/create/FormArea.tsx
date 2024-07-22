@@ -5,6 +5,7 @@ interface IFormAreaProps
   extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   title: string;
   required: boolean;
+  error: boolean;
   errorMessage?: string[];
 }
 
@@ -15,6 +16,7 @@ export default function FormArea({
   name,
   title,
   required,
+  error,
   errorMessage,
   onChange,
   value,
@@ -36,7 +38,7 @@ export default function FormArea({
           value={value}
           {...rest}
         />
-        <span className="text-red-500">{errorMessage}</span>
+        {error && <span className="text-red-500">{errorMessage![0]}</span>}
       </div>
     </>
   );
