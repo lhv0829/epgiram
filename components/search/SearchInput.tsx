@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import SearchIcon from "@/public/icons/search.svg";
-import { useSearch } from "@/contexts/SearchContext";
+import { useSearch } from "@/contexts/SearchProvider";
 import { useRouter } from "next/navigation";
 
 export default function SearchInput() {
@@ -14,7 +14,7 @@ export default function SearchInput() {
     event.preventDefault();
     if (inputValue.trim()) {
       addSearchWord(inputValue.trim());
-      router.push(`/search?word=${inputValue.trim()}`);
+      router.push(`/search?keyword=${inputValue.trim()}`);
       setInputValue("");
     }
   };

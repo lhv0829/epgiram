@@ -30,7 +30,7 @@
   }
 
   .zigzag-pattern {
-    @apply relative bg-white h-7 shadow-lg z-10;
+    @apply relative bg-white h-7 z-10;
   }
 
   .zigzag-pattern::after {
@@ -39,7 +39,7 @@
     background: linear-gradient(-150deg, #fff 15px, transparent 0) 0 15px, linear-gradient(150deg, #fff 15px, transparent 0) 0 15px;
     background-position: top left;
     background-repeat: repeat-x;
-    background-size: 30px 30px;
+    background-size: 30px 30px; /* 배경 크기 설정 */
   }
 }
 

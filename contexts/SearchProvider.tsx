@@ -1,3 +1,4 @@
+import { useRouter } from "next/navigation";
 import {
   createContext,
   useContext,
@@ -16,6 +17,7 @@ const SearchContext = createContext<SearchContextProps | undefined>(undefined);
 
 export const SearchProvider = ({ children }: { children: ReactNode }) => {
   const [searchWords, setSearchWords] = useState<string[]>([]);
+  const router = useRouter();
 
   useEffect(() => {
     const storedWords = localStorage.getItem("words");
@@ -37,6 +39,7 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
 
   const resetWord = () => {
     localStorage.removeItem("words");
+    router.push("/search");
     setSearchWords([]);
   };
 
