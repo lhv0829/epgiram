@@ -1,14 +1,14 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { InputHTMLAttributes } from "react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import TextField from "@/components/core/input/textField";
 import { Label } from "@/components/ui/label";
 
-interface IAuthorFieldProps {
+interface IAuthorFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   handleRadioChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   author: string;
-  setAuthor: Dispatch<SetStateAction<string>>;
   authorType: string;
   errorMessage?: string[];
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export default function AuthorField(props: IAuthorFieldProps) {
@@ -42,7 +42,7 @@ export default function AuthorField(props: IAuthorFieldProps) {
           placeholder="저자 이름 입력"
           name="author"
           value={props.author}
-          onChange={(e) => props.setAuthor(e.target.value)}
+          onChange={props.onChange}
           readOnly={props.authorType !== "default"}
         />
         <span className="text-red-500">{props.errorMessage}</span>

@@ -65,8 +65,6 @@ export const formAction = async (prev: any, formData: FormData) => {
     body: JSON.stringify(result.data),
   }).then((res) => res.json());
 
-  console.log(response);
-
   //유효성 검사 성공하고, 폼 제출 성공 시
   redirect(`/epigrams/${response.redirectId}`);
 };

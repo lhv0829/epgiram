@@ -2,35 +2,60 @@
 
 import { useState } from "react";
 import { useFormState } from "react-dom";
-import TextField from "@/components/core/input/textField";
-import { useFormData } from "@/contexts/FormProvider";
 import { formAction } from "./actions";
-import SearchWordChip from "@/components/SearchWordChip";
 import TagField from "../TagField";
+import TextField from "@/components/core/input/textField";
+import SearchWordChip from "@/components/SearchWordChip";
 import FormArea from "@/components/epigram/create/FormArea";
 import AuthorField from "../AuthorField";
+import CreateButton from "../CreateButton";
+
+interface FormState {
+  content: string;
+  author: string;
+  referenceTitle: string;
+  referenceUrl: string;
+}
 
 export default function CreateForm() {
   const [tags, setTags] = useState<string[]>([]);
   const [authorType, setAuthorType] = useState<string>("default");
-  const [author, setAuthor] = useState<string>("");
-  const { formRef } = useFormData();
+  const [formState, setFormState] = useState<FormState>({
+    content: "",
+    author: "",
+    referenceTitle: "",
+    referenceUrl: "",
+  });
 
   const [state, dispatch] = useFormState(formAction, null);
 
   const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedValue = e.target.value;
     setAuthorType(selectedValue);
-    if (selectedValue !== "default") {
-      setAuthor(selectedValue);
-    } else {
-      setAuthor("");
-    }
+    setFormState((prevState) => ({
+      ...prevState,
+      author: selectedValue !== "default" ? selectedValue : "",
+    }));
   };
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormState((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const isFormSubmit =
+    Object.values(formState).every(
+      (state) => state !== undefined && state !== ""
+    ) && tags.length > 0;
 
   return (
     <div className="w-[640px] mt-14">
-      <form action={dispatch} ref={formRef}>
+      <form action={dispatch}>
         <div className="flex flex-col mb-[56px] gap-6">
           <FormArea
             name="content"
@@ -39,15 +64,16 @@ export default function CreateForm() {
             required={true}
             placeholder="500자 이내로 입력해주세요."
             errorMessage={state?.fieldErrors?.content}
+            onChange={handleInputChange}
           />
         </div>
         <div className="flex flex-col mb-[56px] gap-6">
           <AuthorField
-            author={author}
-            setAuthor={setAuthor}
+            author={formState.author}
             authorType={authorType}
             handleRadioChange={handleRadioChange}
             errorMessage={state?.fieldErrors.author}
+            onChange={handleInputChange}
           />
         </div>
         <div className="flex flex-col mb-[56px] gap-6">
@@ -63,6 +89,7 @@ export default function CreateForm() {
               name="referenceTitle"
               error={state?.fieldErrors.referenceTitle === null}
               errors={state?.fieldErrors.referenceTitle}
+              onChange={handleInputChange}
             />
             <TextField
               type="text"
@@ -72,6 +99,7 @@ export default function CreateForm() {
               name="referenceUrl"
               error={state?.fieldErrors.referenceUrl === null}
               errors={state?.fieldErrors.referenceUrl}
+              onChange={handleInputChange}
             />
           </div>
         </div>
@@ -85,13 +113,14 @@ export default function CreateForm() {
               type="text"
               className="hidden"
               name="tags"
-              value={tags}
+              value={tags.join(",")}
               readOnly
             />
             {tags.map((tag, index) => (
               <SearchWordChip key={index}>{tag}</SearchWordChip>
             ))}
           </div>
+          <CreateButton isFormSubmit={isFormSubmit}>작성 완료</CreateButton>
         </div>
       </form>
     </div>
