@@ -9,6 +9,7 @@ interface FormFieldProps {
   placeholder: string;
   type?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   errors?: string[];
 }
 
@@ -19,6 +20,7 @@ const FormField: React.FC<FormFieldProps> = ({
   placeholder,
   type = "text",
   onChange,
+  onBlur,
   errors = [],
 }) => {
   const error = errors.length > 0 ? true : false;
@@ -28,6 +30,7 @@ const FormField: React.FC<FormFieldProps> = ({
       <TextField
         className={className}
         onChange={onChange}
+        onBlur={onBlur}
         name={name}
         placeholder={placeholder}
         type={type}

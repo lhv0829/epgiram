@@ -1,4 +1,4 @@
-import { useSearch } from "@/contexts/SearchContext";
+import { useSearch } from "@/contexts/SearchProvider";
 
 interface ISearchControllerProps {}
 export default function SearchController(props: ISearchControllerProps) {

@@ -2,16 +2,15 @@
 
 import { useRouter } from "next/navigation";
 import SearchWordChip from "../SearchWordChip";
-import { useSearch } from "@/contexts/SearchContext";
+import { useSearch } from "@/contexts/SearchProvider";
 
-interface ISearchListProps {}
-export default function SearchList(props: ISearchListProps) {
+export default function SearchList() {
   const { searchWords, addSearchWord } = useSearch();
   const router = useRouter();
 
   const handleSearchClick = (word: string) => {
     addSearchWord(word);
-    router.push(`/search?word=${word}`);
+    router.push(`/search?keyword=${word}`);
   };
 
   return (
