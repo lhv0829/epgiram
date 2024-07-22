@@ -1,14 +1,10 @@
 "use client";
 
-import { useFormData } from "@/contexts/FormProvider";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import GnbButton from "./GnbButton";
 
-interface IGnbprops {}
-
-export default function Gnb(props: IGnbprops) {
+export default function Gnb() {
   const pathName = usePathname();
   const pathParts = pathName.split("/").pop();
 
@@ -29,19 +25,23 @@ export default function Gnb(props: IGnbprops) {
 
   const title = getTitle(pathParts);
 
-  const showLogo =
-    pathParts === undefined || pathParts === "" || pathParts === "epigram";
+  const showLogo = !pathParts || pathParts === "epigram";
+  const isAuthPage = pathParts === "login" || pathParts === "join";
+  const isBackPage =
+    pathParts === "addepigram" ||
+    pathParts === "update" ||
+    pathParts === "search";
 
   return (
     <nav className="flex items-center justify-between w-full px-[120px] py-[26px] border-b border-line-#CFDBEA bg-white">
-      {pathParts === "addepigram" ||
-      pathParts === "update" ||
-      pathParts === "search" ? (
-        <Link href={"/epigram"} className="text-base font-bold">
+      {isAuthPage ? (
+        <div></div>
+      ) : isBackPage ? (
+        <Link href="/epigrams" className="text-base font-bold">
           <Image src="/icons/left.svg" alt="back icon" width={36} height={36} />
         </Link>
       ) : (
-        <Link href={"/search"}>
+        <Link href="/search">
           <Image
             src="/icons/search.svg"
             alt="search icon"
@@ -57,10 +57,10 @@ export default function Gnb(props: IGnbprops) {
         <span className="text-[26px] font-bold">{title}</span>
       </div>
       <div className="flex items-center gap-2">
-        {pathParts === "addepigram" ? (
-          <GnbButton />
+        {isAuthPage ? (
+          <div></div>
         ) : pathParts === "update" ? null : (
-          <Link href={"/me"}>
+          <Link href="/me">
             <Image src="/icons/me.svg" alt="user icon" width={36} height={36} />
           </Link>
         )}
