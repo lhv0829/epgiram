@@ -17,8 +17,6 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ ok: false, result });
     }
 
-    console.log(result);
-
     cookiesStore.set("accessToken", result.accessToken, {
       path: "/",
       httpOnly: true,

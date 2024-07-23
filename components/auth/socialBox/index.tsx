@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { googleSignin } from "./actions";
 
 interface ISocialBoxProps {}
 export default function SocialBox(props: ISocialBoxProps) {
@@ -26,12 +27,19 @@ export default function SocialBox(props: ISocialBoxProps) {
         </svg>
       </div>
       <div className="flex justify-center gap-x-4">
-        <div className="oauth">
-          <Image src="/icons/google.svg" alt="google" height={27} width={27} />
-        </div>
-        <div className="oauth">
+        <form action={googleSignin}>
+          <button type="submit" className="oauth">
+            <Image
+              src="/icons/google.svg"
+              alt="google"
+              height={27}
+              width={27}
+            />
+          </button>
+        </form>
+        <button type="button" className="oauth">
           <Image src="/icons/kakao.svg" alt="kakao" height={30} width={27} />
-        </div>
+        </button>
       </div>
     </div>
   );
