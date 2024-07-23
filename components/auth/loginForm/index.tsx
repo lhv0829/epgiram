@@ -43,13 +43,11 @@ export default function LoginForm() {
   const [isFormValid, setIsFormValid] = useState(false);
   const formFields = [
     {
-      label: "이메일",
       name: "email",
       placeholder: "이메일",
       errors: fieldErrors.email,
     },
     {
-      label: "비밀번호",
       name: "password",
       placeholder: "비밀번호",
       type: "password",

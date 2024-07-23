@@ -25,7 +25,7 @@ export default function Gnb() {
 
   const title = getTitle(pathParts);
 
-  const showLogo = !pathParts || pathParts === "epigram";
+  const showLogo = title === "Epigram";
   const isAuthPage = pathParts === "login" || pathParts === "join";
   const isBackPage =
     pathParts === "addepigram" ||
