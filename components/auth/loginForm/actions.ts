@@ -26,6 +26,7 @@ export async function login(prev: any, formData: FormData) {
       return { message: result.message, ok };
     } else {
       cookies().set("accessToken", result.accessToken);
+      cookies().set("refreshToken", result.refreshToken);
       return { message: "", ok };
     }
   } catch (e) {

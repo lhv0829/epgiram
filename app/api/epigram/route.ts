@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
+    const { body } = await request.json();
     const authorization = request.headers.get("authorization");
 
     if (!authorization) {
@@ -18,12 +18,18 @@ export async function POST(request: NextRequest) {
         Authorization: authorization,
       },
       body: JSON.stringify(body),
-    }).then((res) => res.json());
+    });
 
-    return NextResponse.json(
-      { redirectId: response.id, ok: true },
-      { status: 200 }
-    );
+    const result = await response.json();
+
+    if (response.status === 401) {
+      return NextResponse.json(
+        { message: result.message },
+        { status: response.status }
+      );
+    }
+
+    return NextResponse.json(result, { status: response.status });
   } catch (error) {
     console.error("폼 데이터를 파싱하는 데 실패했습니다:", error);
     return NextResponse.json({ message: error }, { status: 400 });

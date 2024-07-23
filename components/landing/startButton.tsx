@@ -1,16 +1,31 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { getCookieValue } from "@/lib/getCookie";
 import { MainButton } from "../ui/MainButton";
+import { useEffect, useState } from "react";
 
 interface IStartButtonProps {}
 export default function StartButton(props: IStartButtonProps) {
   const router = useRouter();
 
+  const [token, setToken] = useState("");
+
+  useEffect(() => {
+    async function fetchTokens() {
+      const response = await fetch("/api/cookie", {
+        method: "GET",
+        credentials: "include",
+      });
+      const data = await response.json();
+      console.log("Fetched Tokens:", data);
+      setToken(data.accessToken);
+    }
+
+    fetchTokens();
+  }, []);
+
   const handleClick = () => {
-    const accessToken = getCookieValue("accessToken");
-    if (accessToken) {
+    if (token) {
       router.push("/epigrams");
     } else {
       router.push("/login");
