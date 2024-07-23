@@ -71,6 +71,9 @@ export default function CreateForm() {
       [name]: value,
     }));
   };
+  const handleTagDelete = (tagToDelete: string) => {
+    setTags((prevTags) => prevTags.filter((tag) => tag !== tagToDelete));
+  };
 
   const {
     content,
@@ -159,7 +162,14 @@ export default function CreateForm() {
               readOnly
             />
             {tags.map((tag, index) => (
-              <SearchWordChip key={index}>{tag}</SearchWordChip>
+              <SearchWordChip
+                key={index}
+                onClick={() => {
+                  handleTagDelete(tag);
+                }}
+              >
+                {tag}
+              </SearchWordChip>
             ))}
           </div>
           <CreateButton isFormSubmit={isFormSubmit}>작성 완료</CreateButton>
