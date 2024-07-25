@@ -3,26 +3,23 @@
 import { useRouter } from "next/navigation";
 import { MainButton } from "../ui/MainButton";
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 
 interface IStartButtonProps {}
 export default function StartButton(props: IStartButtonProps) {
   const router = useRouter();
-
-  const [token, setToken] = useState("");
-
+  const [token, setToken] = useState(false);
+  const { data: session, status } = useSession();
+  console.log("client", session, status);
   useEffect(() => {
-    async function fetchTokens() {
-      const response = await fetch("/api/cookie", {
-        method: "GET",
-        credentials: "include",
-      });
-      const data = await response.json();
-      console.log("Fetched Tokens:", data);
-      setToken(data.accessToken);
-    }
+    const redirect = async () => {
+      if (session && session.accessToken) {
+        setToken(true);
+      }
+    };
 
-    fetchTokens();
-  }, []);
+    redirect();
+  }, [session]);
 
   const handleClick = () => {
     if (token) {

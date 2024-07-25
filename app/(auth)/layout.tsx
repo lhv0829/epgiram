@@ -11,7 +11,11 @@ export const metadata: Metadata = {
   },
 };
 
-export default function AuthLayout({ children }: { children: ReactNode }) {
+export default async function AuthLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
   return (
     <html lang="ko" className="bg-background">
       <body className="">

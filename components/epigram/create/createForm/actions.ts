@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 import { redirect } from "next/navigation";
-import { cookies } from "next/headers";
+import { getSession } from "@/lib/getSession";
 
 const MAX_TAG_LENGTH = 10;
 const MAX_TAG_COUNT = 3;
@@ -58,12 +58,14 @@ export const formAction = async (prev: any, formData: FormData) => {
     return result.error.flatten();
   }
 
+  const session = await getSession();
+
   const submitForm = async () => {
     const response = await fetch(`${process.env.BASE_URL}/api/epigram`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${cookies().get("accessToken")?.value}`,
+        Authorization: `Bearer ${session?.accessToken}`,
       },
       body: JSON.stringify({
         body: result.data,
@@ -83,6 +85,7 @@ export const formAction = async (prev: any, formData: FormData) => {
 
   // jwt 만료 시, 재발급
   if (responseStatus === 401) {
+    console.log("reissuance");
     const tokenResponse = await fetch(
       `${process.env.EPIGRAM_API}/auth/refresh-token`,
       {
@@ -91,14 +94,15 @@ export const formAction = async (prev: any, formData: FormData) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          refreshToken: cookies().get("refreshToken")?.value,
+          refreshToken: session?.refreshToken,
         }),
       }
     );
 
     if (tokenResponse.status === 200) {
       const tokenResult = await tokenResponse.json();
-      cookies().set("accessToken", tokenResult.accessToken);
+      session!.accessToken = tokenResult.accessToken;
+      // cookies().set("accessToken", tokenResult.accessToken);
       // 재발급 후 다시 폼 제출
       responseStatus = await submitForm();
     }

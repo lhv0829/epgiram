@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { googleSignin } from "./actions";
+import { googleSignin, KakaoSignin, NaverSignin } from "./actions";
 
 interface ISocialBoxProps {}
 export default function SocialBox(props: ISocialBoxProps) {
@@ -37,9 +37,16 @@ export default function SocialBox(props: ISocialBoxProps) {
             />
           </button>
         </form>
-        <button type="button" className="oauth">
-          <Image src="/icons/kakao.svg" alt="kakao" height={30} width={27} />
-        </button>
+        <form action={KakaoSignin}>
+          <button type="submit" className="oauth">
+            <Image src="/icons/kakao.svg" alt="kakao" height={30} width={27} />
+          </button>
+        </form>
+        <form action={NaverSignin}>
+          <button type="submit" className="oauth">
+            <Image src="/icons/naver.svg" alt="naver" height={30} width={27} />
+          </button>
+        </form>
       </div>
     </div>
   );

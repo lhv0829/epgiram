@@ -31,7 +31,7 @@ interface FieldErrors {
 
 export default function LoginForm() {
   const router = useRouter();
-  const [state, dispatch] = useFormState(login, { message: "", ok: false });
+  const [state, dispatch] = useFormState(login, null);
   const [formState, setFormState] = useState<FormState>({
     email: "",
     password: "",
@@ -95,16 +95,20 @@ export default function LoginForm() {
   };
 
   useEffect(() => {
-    if (state?.message !== "" && !state?.ok) {
-      setFieldErrors((prevErrors) => ({
-        ...prevErrors,
-        email: ["이메일 혹은 비밀번호를 확인해주세요."],
-      }));
-    }
-    if (state?.ok) {
-      router.push("/");
-    }
-  }, [state, router]);
+    console.log("state", state);
+  }, [state]);
+
+  // useEffect(() => {
+  //   if (state?.message !== "" && !state?.ok) {
+  //     setFieldErrors((prevErrors) => ({
+  //       ...prevErrors,
+  //       email: ["이메일 혹은 비밀번호를 확인해주세요."],
+  //     }));
+  //   }
+  //   if (state?.ok) {
+  //     router.push("/");
+  //   }
+  // }, [state, router]);
 
   return (
     <>
