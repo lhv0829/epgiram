@@ -2,9 +2,11 @@ import TextField from "@/components/core/input/textField";
 import { Dispatch, SetStateAction, useState } from "react";
 
 export default function TagField({
+  error,
   errors,
   setTags,
 }: {
+  error: boolean;
   errors: string[] | undefined;
   setTags: Dispatch<SetStateAction<string[]>>;
 }) {
@@ -44,16 +46,14 @@ export default function TagField({
         id="tags"
         value={tag}
         className="textField-outline"
-        errors={[]}
+        error={error}
+        errors={errors}
         placeholder="입력하여 태그 검색 (최대 10자)"
         onChange={handleChange}
         onKeyDown={handleKeyDown}
         onCompositionStart={handleCompositionStart}
         onCompositionEnd={handleCompositionEnd}
       />
-      {errors?.map((error, index) => (
-        <span key={index}>{error}</span>
-      ))}
     </div>
   );
 }

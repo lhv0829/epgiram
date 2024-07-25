@@ -3,7 +3,7 @@ import React from "react";
 import TextField from "./textField";
 
 interface FormFieldProps {
-  label: string;
+  label?: string;
   name: string;
   className?: string;
   placeholder: string;
@@ -26,7 +26,9 @@ const FormField: React.FC<FormFieldProps> = ({
   const error = errors.length > 0 ? true : false;
   return (
     <>
-      <label htmlFor={name}>{label}</label>
+      <label className="text-blue-900 text-xl font-medium" htmlFor={name}>
+        {label}
+      </label>
       <TextField
         className={className}
         onChange={onChange}
