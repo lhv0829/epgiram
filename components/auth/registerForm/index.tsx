@@ -4,10 +4,10 @@ import React, { useState } from "react";
 import { useFormState } from "react-dom";
 import FormField from "@/components/core/input/FormField";
 import AuthButton from "../AuthButton";
-import SocialBox from "../socialBox";
 import { z } from "zod";
 import { PASSWORD_REGEX } from "@/lib/regex";
 import { createAccount } from "./actions";
+import SocialBox from "../socialBox";
 
 const formSchema = z
   .object({
