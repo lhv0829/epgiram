@@ -1,23 +1,62 @@
+"use client";
 import EmotionChart from "@/components/EmotionChart";
 import TodayEmotion from "@/components/TodayEmotion";
 import Card from "@/components/epigram/Card";
 import Comment from "@/components/epigram/Comment";
+import NoContent from "@/components/epigram/NoContent";
+import MyProfileImage from "@/components/my/MyprofileImage";
 import { SecondaryButton } from "@/components/ui/SecondaryButton";
 import Title from "@/components/ui/Title";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { getMyComment, getMyCommentTotalCount, getMyData } from "@/lib/fetch";
+import { InfiniteQueryComment, User } from "@/lib/type";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
 import { Metadata } from "next";
+import Link from "next/link";
+import { useEffect } from "react";
 
-export const metadata: Metadata = {
-  title: "마이 페이지",
-};
+// export const metadata: Metadata = {
+//   title: "마이 페이지",
+// };
 
 export default function Me() {
+  const { data: userData } = useQuery<User>({
+    queryKey: ["myProfile"],
+    queryFn: () => getMyData(),
+  });
+
+  const { data: myCommentTotalCount } = useQuery<number>({
+    queryKey: ["myEpigramTotalCount", userData?.id],
+    queryFn: () => getMyCommentTotalCount(userData!.id),
+    enabled: !!userData?.id,
+  });
+
+  const {
+    data: myComments,
+    fetchNextPage: fetchNextMyComment,
+    hasNextPage: hasNextMyComment,
+  } = useInfiniteQuery({
+    enabled: !!userData?.id,
+    queryKey: ["myComments", userData?.id],
+    queryFn: ({ pageParam }) => getMyComment(userData!.id, pageParam),
+    initialPageParam: 0,
+    select: (data: InfiniteQueryComment) => ({
+      comments: [...data.pages.map((page) => page.list.flat())],
+      pageParams: [data.pages.map(({ nextCursor }) => nextCursor)],
+    }),
+    getNextPageParam: (lastPage) => (lastPage.nextCursor !== null ? Number(lastPage.nextCursor) : undefined),
+  });
+
+  const handleClickMore = () => {
+    if (hasNextMyComment) fetchNextMyComment();
+  };
+
   return (
     <div className="w-full h-full flex flex-col items-center">
       <div className="absolute flex flex-col items-center gap-6 top-40">
         <div className="flex flex-col items-center gap-4">
-          <div className="w-[120px] h-[120px] rounded-full bg-illust-purple"></div>
+          <MyProfileImage profileIamge={userData?.image as string} nickname={userData?.nickname as string} />
           <div className="text-2xl font-medium text-black-950">지킬과 하이드</div>
         </div>
         <button className="rounded-[100px] px-4 py-1.5 text-gray-300 bg-line-#F2F2F2 text-xl font-medium">로그아웃</button>
@@ -42,69 +81,37 @@ export default function Me() {
         <Tabs defaultValue="epigrams">
           <TabsList className="mb-16">
             <TabsTrigger value="epigrams">내 에피그램(10)</TabsTrigger>
-            <TabsTrigger value="comments">내 댓글(110)</TabsTrigger>
+            <TabsTrigger value="comments">내 댓글({myCommentTotalCount})</TabsTrigger>
           </TabsList>
           <TabsContent value="epigrams">
-            <div className="flex flex-col gap-12">
-              {/* <Card
-                {...{
-                  sentence:
-                    "이 세상에는 위대한 진실이 하나 있어. 무언가를 온 마음을 다해 원한다면, 반드시 그렇게 된다는 거야. 무언가를 바라는 마음은 곧 우주의 마음으로부터 비롯된 것이기 때문이지.",
-                  author: "파울로 코엘료",
-                  tags: ["#나아가야할때", "#꿈을이루고싶을때"],
-                }}
-              />
-              <Card
-                {...{
-                  sentence:
-                    "이 세상에는 위대한 진실이 하나 있어. 무언가를 온 마음을 다해 원한다면, 반드시 그렇게 된다는 거야. 무언가를 바라는 마음은 곧 우주의 마음으로부터 비롯된 것이기 때문이지.",
-                  author: "파울로 코엘료",
-                  tags: ["#나아가야할때", "#꿈을이루고싶을때"],
-                }}
-              />
-              <Card
-                {...{
-                  sentence:
-                    "이 세상에는 위대한 진실이 하나 있어. 무언가를 온 마음을 다해 원한다면, 반드시 그렇게 된다는 거야. 무언가를 바라는 마음은 곧 우주의 마음으로부터 비롯된 것이기 때문이지.",
-                  author: "파울로 코엘료",
-                  tags: ["#나아가야할때", "#꿈을이루고싶을때"],
-                }}
-              /> */}
-            </div>
+            <div className="flex flex-col gap-12"></div>
           </TabsContent>
           <TabsContent value="comments">
-            <div className="flex flex-col items-center justify-center gap-4">
-              <Comment
-                {...{
-                  username: "지킬과 하이드",
-                  timeAgo: "1시간 전",
-                  content: "오늘 하루 우울했었는데 덕분에 많은 힘 얻고 갑니다. 연금술사 책 다시 사서 오랜만에 읽어 봐야겠어요!",
-                  me: true,
-                }}
-              />
-              <Comment
-                {...{
-                  username: "지킬과 하이드",
-                  timeAgo: "1시간 전",
-                  content: "오늘 하루 우울했었는데 덕분에 많은 힘 얻고 갑니다. 연금술사 책 다시 사서 오랜만에 읽어 봐야겠어요!",
-                  me: true,
-                }}
-              />
-              <Comment
-                {...{
-                  username: "지킬과 하이드",
-                  timeAgo: "1시간 전",
-                  content: "오늘 하루 우울했었는데 덕분에 많은 힘 얻고 갑니다. 연금술사 책 다시 사서 오랜만에 읽어 봐야겠어요!",
-                  me: true,
-                }}
-              />
-            </div>
+            {myCommentTotalCount === 0 ? (
+              <NoContent button="에피그램 둘러보기">
+                아직 작성한 댓글이 없어요!
+                <br />
+                댓글을 달고 다른 사람과 교류해보세요.
+              </NoContent>
+            ) : (
+              <div className="flex flex-col justify-center">
+                <div className="flex flex-col items-center justify-center">
+                  {myComments?.comments.map((comments) =>
+                    comments.map((comment) => (
+                      <Link href={`/epigrams/${comment.epigramId}`} className="w-full">
+                        <Comment commentData={comment} epigramId={comment.epigramId} userId={userData?.id as number} />
+                      </Link>
+                    ))
+                  )}
+                </div>
+                <SecondaryButton variant="icon" size="xl" text="xl" className="mx-auto my-8" onClick={handleClickMore}>
+                  <Plus />
+                  <span>더보기</span>
+                </SecondaryButton>
+              </div>
+            )}
           </TabsContent>
         </Tabs>
-        <SecondaryButton variant="icon" size="xl" text="xl" className="mx-auto mt-8">
-          <Plus />
-          <span>더보기</span>
-        </SecondaryButton>
       </div>
     </div>
   );
