@@ -11,9 +11,7 @@ export default function Home() {
           나만 갖고 있기엔
           <br /> 아까운 글이 있지 않나요?
         </p>
-        <p className="text-gray-600 mb-12 font-iropke">
-          다른 사람들과 감정을 공유해 보세요.
-        </p>
+        <p className="text-gray-600 mb-12 font-iropke">다른 사람들과 감정을 공유해 보세요.</p>
         <StartButton />
       </Section>
       <Section className="bg-background relative">

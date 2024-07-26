@@ -3,9 +3,14 @@ import ScrollToTopButton from "@/components/ScrollToTopButton";
 import TodayEmotion from "@/components/TodayEmotion";
 import Card from "@/components/epigram/Card";
 import Comment from "@/components/epigram/Comment";
+import NoContent from "@/components/epigram/NoContent";
 import { SecondaryButton } from "@/components/ui/SecondaryButton";
 import Title from "@/components/ui/Title";
+import { getRecentEpigramTotalCount, getRecentCommentTotalCount, getRecentEpigrams, getTodayEpigram, getRecentComments } from "@/lib/fetch";
+import { Comment as CommentType, Epigram, InfiniteQueryComment, InfiniteQueryEpigram, Tag } from "@/lib/type";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
+import Link from "next/link";
 // import { Metadata } from "next";
 import { useEffect, useState } from "react";
 
@@ -15,35 +20,77 @@ import { useEffect, useState } from "react";
 
 export default function Main() {
   const [showScrollButton, setShowScrollButton] = useState(false);
-  const cardProps = {
-    sentence: "오랫동안 꿈을 그리는 사람은 마침내 그 꿈을 닮아 간다.",
-    author: "앙드레 말로",
-    tags: ["#나아가야할때", "#꿈을이루고싶을때"],
+  const [limit, setLimit] = useState(3);
+
+  const { data: todayEpigram } = useQuery<Epigram, Error>({
+    queryKey: ["todayEpigram"],
+    queryFn: () => getTodayEpigram(),
+  });
+
+  const { data: epigramTotalCount } = useQuery<number>({
+    queryKey: ["epigramTotalCount"],
+    queryFn: () => getRecentEpigramTotalCount(),
+  });
+
+  const { data: commentTotalCount } = useQuery<number>({
+    queryKey: ["commentTotalCount"],
+    queryFn: () => getRecentCommentTotalCount(),
+  });
+
+  const {
+    data: recentEpigrams,
+    fetchNextPage: fetchNextEpigram,
+    hasNextPage: hasNextEpigram,
+  } = useInfiniteQuery({
+    queryKey: ["recentEmpigrams"],
+    queryFn: ({ pageParam }) => getRecentEpigrams(pageParam, limit),
+    initialPageParam: 0,
+    select: (data: InfiniteQueryEpigram) => ({
+      epigrams: [...data.pages.map((page) => page.list.flat())],
+      pageParams: [data.pages.map(({ nextCursor }) => nextCursor)],
+    }),
+    getNextPageParam: (lastPage) => (lastPage.nextCursor !== null ? Number(lastPage.nextCursor) : undefined),
+  });
+
+  const {
+    data: recentComment,
+    fetchNextPage: fetchNextComment,
+    hasNextPage: hasNextComment,
+  } = useInfiniteQuery({
+    queryKey: ["recentComments"],
+    queryFn: ({ pageParam }) => getRecentComments(pageParam),
+    refetchOnMount: true,
+    initialPageParam: 0,
+    select: (data: InfiniteQueryComment) => ({
+      comments: [...data.pages.map((page) => page.list.flat())],
+      pageParams: [data.pages.map(({ nextCursor }) => nextCursor)],
+    }),
+    getNextPageParam: (lastPage) => (lastPage.nextCursor !== null ? Number(lastPage.nextCursor) : undefined),
+  });
+
+  const handleClickMoreEpigrams = () => {
+    if (hasNextEpigram) fetchNextEpigram();
   };
 
-  const commentProps = {
-    username: "지킬과 하이드",
-    timeAgo: "1시간 전",
-    content: "오늘 하루 우울했었는데 덕분에 많은 힘 얻고 갑니다. 연금술사 책 다시 사서 오랜만에 읽어 봐야겠어요!",
-    me: true,
+  const handleClickMoreComment = () => {
+    if (hasNextComment) fetchNextComment();
   };
 
   useEffect(() => {
-    // 페이지가 렌더링 되면 무조건 맨위로 스크롤 한다.
-
     const handleScroll = () => {
-      // 일정 구간 스크롤이 내려가면 버튼을 보여준다.
       if (window.scrollY > window.outerHeight / 3) setShowScrollButton(true);
       else setShowScrollButton(false);
     };
 
-    // window에 scroll 이벤트를 넣는다.
     window.addEventListener("scroll", handleScroll);
 
-    // 페이지를 벗어날 때 이벤트를 제거한다.
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
+  }, []);
+
+  useEffect(() => {
+    if (limit === 3) setLimit(4);
   }, []);
 
   return (
@@ -52,10 +99,10 @@ export default function Main() {
         <Title>오늘의 에피그램</Title>
         <Card
           {...{
-            sentence:
-              "이 세상에는 위대한 진실이 하나 있어. 무언가를 온 마음을 다해 원한다면, 반드시 그렇게 된다는 거야. 무언가를 바라는 마음은 곧 우주의 마음으로부터 비롯된 것이기 때문이지.",
-            author: "파울로 코엘료",
-            tags: ["#나아가야할때", "#꿈을이루고싶을때"],
+            sentence: todayEpigram?.content as string,
+            author: todayEpigram?.author as string,
+            tags: todayEpigram?.tags as Array<Tag>,
+            id: todayEpigram?.id as number,
           }}
         />
       </div>
@@ -66,33 +113,52 @@ export default function Main() {
       <div className="flex flex-col gap-6 lg:gap-10 mt-8 lg:mt-10">
         <Title>최신 에피그램</Title>
         <div className="flex flex-col gap-4">
-          <Card
-            {...{
-              sentence:
-                "이 세상에는 위대한 진실이 하나 있어. 무언가를 온 마음을 다해 원한다면, 반드시 그렇게 된다는 거야. 무언가를 바라는 마음은 곧 우주의 마음으로부터 비롯된 것이기 때문이지.",
-              author: "파울로 코엘료",
-              tags: ["#나아가야할때", "#꿈을이루고싶을때"],
-            }}
-          />
-          {[...Array(2)].map((_, index) => (
-            <Card key={index} {...cardProps} />
-          ))}
+          {epigramTotalCount === 0 ? (
+            <NoContent button="에피그램 만들기">
+              아직 작성된 에피그램이 없어요!
+              <br />
+              에피그램을 작성해보세요
+            </NoContent>
+          ) : (
+            recentEpigrams?.epigrams.map((epigrams) =>
+              epigrams?.map((epigram: Epigram) => (
+                <Card key={epigram?.id} sentence={epigram?.content} author={epigram?.author} tags={epigram?.tags} id={epigram.id} />
+              ))
+            )
+          )}
         </div>
-        <SecondaryButton variant="icon" size="xl" text="xl" className="mx-auto mt-8">
-          <Plus />
-          <span>더보기</span>
-        </SecondaryButton>
+        {epigramTotalCount !== undefined && epigramTotalCount > 3 && (
+          <SecondaryButton variant="icon" size="xl" text="xl" className="mx-auto mt-8" onClick={handleClickMoreEpigrams}>
+            <Plus />
+            <span>더보기</span>
+          </SecondaryButton>
+        )}
       </div>
       <div className="flex flex-col gap-4 lg:gap-10 mt-8 lg:mt-10">
         <Title>최신 댓글</Title>
         <div className="flex flex-col items-center justify-center gap-4">
-          <Comment {...commentProps} />
-          <Comment {...commentProps} />
+          {commentTotalCount === 0 ? (
+            <NoContent button="에피그램 둘러보기">
+              아직 작성된 댓글이 없어요!
+              <br />
+              에피그램을 둘러보고 댓글을 작성해보세요
+            </NoContent>
+          ) : (
+            recentComment?.comments.map((comment) =>
+              comment?.map((comment: CommentType) => (
+                <Link href={`/epigrams/${comment.epigramId}`} key={comment.id} className="w-full">
+                  <Comment commentData={comment} epigramId={comment.epigramId} />
+                </Link>
+              ))
+            )
+          )}
         </div>
-        <SecondaryButton variant="icon" size="xl" text="xl" className="mx-auto mt-8">
-          <Plus />
-          <span>더보기</span>
-        </SecondaryButton>
+        {commentTotalCount !== undefined && commentTotalCount > 5 && (
+          <SecondaryButton variant="icon" size="xl" text="xl" className="mx-auto my-8" onClick={handleClickMoreComment}>
+            <Plus />
+            <span>더보기</span>
+          </SecondaryButton>
+        )}
       </div>
       {showScrollButton && <ScrollToTopButton />}
     </div>

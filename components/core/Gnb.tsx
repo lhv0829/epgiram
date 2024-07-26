@@ -27,10 +27,7 @@ export default function Gnb() {
 
   const showLogo = title === "Epigram";
   const isAuthPage = pathParts === "login" || pathParts === "join";
-  const isBackPage =
-    pathParts === "addepigram" ||
-    pathParts === "update" ||
-    pathParts === "search";
+  const isBackPage = pathParts === "addepigram" || pathParts === "update" || pathParts === "search";
 
   return (
     <nav className="flex items-center justify-between w-full px-[120px] py-[26px] border-b border-line-#CFDBEA bg-white">
@@ -42,25 +39,18 @@ export default function Gnb() {
         </Link>
       ) : (
         <Link href="/search">
-          <Image
-            src="/icons/search.svg"
-            alt="search icon"
-            width={36}
-            height={36}
-          />
+          <Image src="/icons/search.svg" alt="search icon" width={36} height={36} />
         </Link>
       )}
       <div className="flex items-center gap-2">
-        {showLogo && (
-          <Image src="/icons/logo.svg" alt="logo" width={48} height={48} />
-        )}
+        {showLogo && <Image src="/icons/logo.svg" alt="logo" width={48} height={48} />}
         <span className="text-[26px] font-bold">{title}</span>
       </div>
       <div className="flex items-center gap-2">
         {isAuthPage ? (
           <div></div>
         ) : pathParts === "update" ? null : (
-          <Link href="/me">
+          <Link href="/mypage">
             <Image src="/icons/me.svg" alt="user icon" width={36} height={36} />
           </Link>
         )}

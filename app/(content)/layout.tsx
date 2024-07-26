@@ -4,6 +4,7 @@ import Gnb from "@/components/core/Gnb";
 import "../globals.css";
 import { FormProvider } from "@/contexts/FormProvider";
 import { ThemeProvider } from "@/contexts/ThemeProvider";
+import ReactQueryProviders from "@/contexts/ReactQueryProvider";
 
 export const metadata: Metadata = {
   title: {
@@ -18,7 +19,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
       <ThemeProvider>
         <FormProvider>
           <Gnb />
-          {children}
+          <ReactQueryProviders>{children}</ReactQueryProviders>
         </FormProvider>
       </ThemeProvider>
     </html>
