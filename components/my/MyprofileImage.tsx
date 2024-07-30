@@ -3,7 +3,6 @@
 import { patchMyData, uploadImage } from "@/lib/fetch";
 import { PatchMyData } from "@/lib/type";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import Image from "next/image";
 import { useState, useRef } from "react";
 
 interface MyProfileImageProps {
@@ -26,7 +25,7 @@ const MyProfileImage = ({ profileIamge, nickname }: MyProfileImageProps) => {
     onSuccess: (data) => {
       const otherData = {
         nickname: nickname,
-        image: data,
+        image: data.url,
       };
       modifyProfile(otherData);
       setImage(data);
@@ -39,7 +38,7 @@ const MyProfileImage = ({ profileIamge, nickname }: MyProfileImageProps) => {
 
   const { mutate: modifyProfile } = useMutation({
     mutationFn: async (modifiedData: PatchMyData) => patchMyData(modifiedData),
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["myProfile"] });
     },
     onError: (error) => {
@@ -59,8 +58,8 @@ const MyProfileImage = ({ profileIamge, nickname }: MyProfileImageProps) => {
   };
 
   return (
-    <div className="w-[120px] h-[120px] rounded-full border">
-      <Image src={image} alt="프로필 이미지" onClick={handleImageClick} />
+    <div className="w-[120px] h-[120px] rounded-full">
+      <img src={profileIamge} alt="프로필 이미지" onClick={handleImageClick} className="w-full h-full rounded-full" />
       <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" accept="image/*" />
       {isPending && <p>업로드 중...</p>}
       {isError && <p>업로드 실패: {(error as Error).message}</p>}

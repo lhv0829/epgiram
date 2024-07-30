@@ -10,7 +10,7 @@ import { notifyManager, useInfiniteQuery, useMutation, useQuery, useQueryClient 
 import { ArrowUpRightFromSquare, Plus, ThumbsUp } from "lucide-react";
 import { Metadata } from "next";
 import { use, useEffect, useState } from "react";
-import AdditionalMenu from "../AdditionalMenu";
+import AdditionalMenu from "../../../../components/epigram/AdditionalMenu";
 
 // export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
 //   const { id } = params;
