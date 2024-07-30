@@ -14,7 +14,7 @@ interface DayProps {
   onChange: (value: string) => void;
 }
 
-const DAY_EMOJI = {
+export const DAY_EMOJI = {
   MOVED: <HeartFace width={36} height={36} />,
   HAPPY: <SmilingFace width={36} height={36} />,
   WORRIED: <Thinking width={36} height={36} />,

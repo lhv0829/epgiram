@@ -160,7 +160,7 @@ export default function Me() {
                 <p className="font-pre text-2xl font-semibold">감정을 표현해 보세요.</p>
               </div>
             ) : (
-              <EmotionChart />
+              <EmotionChart emotionData={monthlyEmotion} />
             )}
           </div>
         </div>
@@ -173,7 +173,7 @@ export default function Me() {
           </TabsList>
           <TabsContent value="epigrams">
             {myEpigram?.totalCount === 0 ? (
-              <NoContent button="에피그램 둘러보기">
+              <NoContent button="에피그램 생성하기" link="/addepigram">
                 아직 작성한 에피그램이 없어요!
                 <br />
                 에피그램을 작성하고 감정을 공유해보세요.
@@ -196,7 +196,7 @@ export default function Me() {
           </TabsContent>
           <TabsContent value="comments">
             {myCommentTotalCount === 0 ? (
-              <NoContent button="에피그램 둘러보기">
+              <NoContent button="에피그램 둘러보기" link="/epigrams">
                 아직 작성한 댓글이 없어요!
                 <br />
                 댓글을 달고 다른 사람과 교류해보세요.

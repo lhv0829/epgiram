@@ -149,7 +149,7 @@ export default function Main() {
         <Title>최신 에피그램</Title>
         <div className="flex flex-col gap-4">
           {epigramTotalCount === 0 ? (
-            <NoContent button="에피그램 만들기">
+            <NoContent button="에피그램 만들기" link="/addepigram">
               아직 작성된 에피그램이 없어요!
               <br />
               에피그램을 작성해보세요
@@ -173,7 +173,7 @@ export default function Main() {
         <Title>최신 댓글</Title>
         <div className="flex flex-col items-center justify-center gap-4">
           {commentTotalCount === 0 ? (
-            <NoContent button="에피그램 둘러보기">
+            <NoContent button="에피그램 둘러보기" link="/epigrams">
               아직 작성된 댓글이 없어요!
               <br />
               에피그램을 둘러보고 댓글을 작성해보세요

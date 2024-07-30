@@ -11,6 +11,7 @@ import { ArrowUpRightFromSquare, Plus, ThumbsUp } from "lucide-react";
 import { Metadata } from "next";
 import { use, useEffect, useState } from "react";
 import AdditionalMenu from "../../../../components/epigram/AdditionalMenu";
+import { useRouter } from "next/navigation";
 
 // export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
 //   const { id } = params;
@@ -105,6 +106,15 @@ export default function EpigramDetail({ params }: { params: { id: number } }) {
     removeEpigram(params.id);
   };
 
+  const handleClickShare = () => {
+    const currentUrl = `${window.location.origin}/epigrams/${params.id}`;
+
+    navigator.clipboard
+      .writeText(currentUrl)
+      .then(() => alert("현재 페이지 링크가 클립보드에 복사되었습니다."))
+      .catch((err) => console.error("클립보드 복사 실패:", err));
+  };
+
   return (
     <div className="w-full h-full bg-background">
       <div className="notebook-pattern h-[392px] w-full flex justify-center">
@@ -126,7 +136,7 @@ export default function EpigramDetail({ params }: { params: { id: number } }) {
               <ThumbsUp />
               <span>{epigramData?.likeCount}</span>
             </SecondaryButton>
-            <SecondaryButton variant="share" size="md" text="xl" bold="medium">
+            <SecondaryButton onClick={handleClickShare} variant="share" size="md" text="xl" bold="medium">
               <span>왕도로 가는 길</span>
               <ArrowUpRightFromSquare />
             </SecondaryButton>
