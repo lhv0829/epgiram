@@ -95,21 +95,19 @@ export default function LoginForm() {
   };
 
   useEffect(() => {
-    console.log("state", state);
-  }, [state]);
+    if (state === null) return;
 
-  // useEffect(() => {
-  //   if (state?.message !== "" && !state?.ok) {
-  //     setFieldErrors((prevErrors) => ({
-  //       ...prevErrors,
-  //       email: ["이메일 혹은 비밀번호를 확인해주세요."],
-  //     }));
-  //   }
-  //   if (state?.ok) {
-  //     router.push("/");
-  //   }
-  // }, [state, router]);
+    if (!state) {
+      setFieldErrors((prevErrors) => ({
+        ...prevErrors,
+        email: ["이메일 혹은 비밀번호를 확인해주세요."],
+      }));
+    }
 
+    if (state === true) {
+      router.push("/");
+    }
+  }, [state, router]);
   return (
     <>
       <form action={dispatch} className="flex flex-col gap-4 w-[640px]">

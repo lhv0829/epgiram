@@ -12,16 +12,17 @@ export default function StartButton(props: IStartButtonProps) {
   const { data: session, status } = useSession();
   console.log("client", session, status);
   useEffect(() => {
-    const redirect = async () => {
-      if (session && session.accessToken) {
+    const redirectPage = async () => {
+      if (session && (session.accessToken || session?.idToken)) {
         setToken(true);
       }
     };
 
-    redirect();
+    redirectPage();
   }, [session]);
 
   const handleClick = () => {
+    console.log(token);
     if (token) {
       router.push("/epigrams");
     } else {
