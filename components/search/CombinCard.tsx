@@ -61,7 +61,7 @@ const CombinCard = forwardRef<HTMLDivElement, Post>((props, ref) => {
 
   return (
     <Link
-      href={`/epigram/${props.id}`}
+      href={`/epigrams/${props.id}`}
       className="block p-6 text-xl border-b-gray-100 border-b"
     >
       <div ref={ref}>

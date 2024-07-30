@@ -1,4 +1,3 @@
-"use client";
 import axios from "axios";
 
 export const instance = axios.create({
@@ -24,17 +23,18 @@ instance.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
+    if (error.response?.status === 401) {
       try {
         const { data: sessionData } = await axios.get("/api/auth/session");
-        console.log(sessionData);
         const { data } = await axios.post("auth/refresh-token", {
           refreshToken: sessionData.refreshToken,
         });
         if (data?.accessToken) {
-          originalRequest.headers["Authorization"] = `Bearer ${data.accessToken}`;
-          return instance(originalRequest);
+          originalRequest.headers[
+            "Authorization"
+          ] = `Bearer ${data.accessToken}`;
+          const originalResponse = await axios.request(originalRequest);
+          return originalResponse.data.data;
         }
       } catch (refreshError) {
         console.error("Failed to refresh token:", refreshError);
