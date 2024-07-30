@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFormState } from "react-dom";
 import FormField from "@/components/core/input/FormField";
 import AuthButton from "../AuthButton";
@@ -8,6 +8,7 @@ import { z } from "zod";
 import { PASSWORD_REGEX } from "@/lib/regex";
 import { createAccount } from "./actions";
 import SocialBox from "../socialBox";
+import { useRouter } from "next/navigation";
 
 const formSchema = z
   .object({
@@ -51,6 +52,7 @@ const formSchema = z
   });
 
 export default function RegisterForm() {
+  const router = useRouter();
   const [state, dispatch] = useFormState(createAccount, null);
   const [formState, setFormState] = useState({
     email: "",
@@ -133,6 +135,12 @@ export default function RegisterForm() {
       setIsFormValid(false);
     }
   };
+
+  useEffect(() => {
+    if (state === null) return;
+    console.log(state, "state");
+    if (state) router.push("/login");
+  }, [state, router]);
 
   return (
     <>
