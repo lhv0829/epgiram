@@ -15,12 +15,18 @@ export async function createAccount(prev: any, formData: FormData) {
       },
       body: JSON.stringify(data),
     });
-    if (!response.ok) return;
-    const { redirect } = await response.json();
-    console.log("redirect", redirect);
-    // return redirect;
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error(errorData);
+      return false;
+    }
+
+    const responseData = await response.json();
+    console.log(responseData);
+    return responseData.redrect;
   } catch (e) {
     console.log(e);
-    throw new Error("Faild");
+    throw new Error("Failed");
   }
 }
