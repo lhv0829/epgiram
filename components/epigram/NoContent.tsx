@@ -1,13 +1,15 @@
 import { LucideSearch, Smile } from "lucide-react";
 import { SecondaryButton } from "../ui/SecondaryButton";
 import { ReactNode } from "react";
+import Link from "next/link";
 
 interface NoContentProps {
+  link: string;
   button: string;
   children: ReactNode;
 }
 
-const NoContent = ({ button, children }: NoContentProps) => {
+const NoContent = ({ link, button, children }: NoContentProps) => {
   return (
     <div className="flex flex-col gap-6 px-[76px] py-9 lg:px-[154px] lg:py-[76px] w-[640px] h-[488px]">
       <div className="flex justify-center items-center text-blue-300">
@@ -18,9 +20,11 @@ const NoContent = ({ button, children }: NoContentProps) => {
       </div>
       <div className="flex flex-col gap-12 justify-center items-center">
         <p className="text-center text-black-600 text-xl font-pre">{children}</p>
-        <SecondaryButton variant="icon" size="xl" text="xl" className="mx-auto">
-          {button}
-        </SecondaryButton>
+        <Link href={link}>
+          <SecondaryButton variant="icon" size="xl" text="xl" className="mx-auto">
+            {button}
+          </SecondaryButton>
+        </Link>
       </div>
     </div>
   );

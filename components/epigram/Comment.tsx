@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import CommentInput from "./CommentInput";
 import { Comment as CommentType, PatchCommentData, User } from "@/lib/type";
-import Image from "next/image";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { patchComment } from "@/lib/fetch";
 import DeleteCommentDialog from "./DeleteCommentDialog";
@@ -52,7 +51,7 @@ export default function Comment({ commentData, epigramId, userId = undefined }: 
       {!isEditable && (
         <>
           <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
-            <Image src={commentData.writer.image || ""} alt="유저 프로필 이미지" />
+            <img src={commentData.writer.image} alt="유저 프로필 이미지" className="w-full h-full rounded-full" />
           </div>
           <div className="flex-1">
             <div className="flex items-center justify-between mb-4">

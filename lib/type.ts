@@ -111,8 +111,6 @@ export type Comment = z.infer<typeof Comment>;
 
 export type Tag = z.infer<typeof Tag>;
 
-export type Emotion = z.infer<typeof Emotion> | undefined;
-
 export type EmotionData = z.infer<typeof EmotionData>;
 
 export type MontlyEmotionData = z.infer<typeof MontlyEmotionData>;

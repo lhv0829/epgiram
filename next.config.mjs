@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
-      reactStrictMode: true,
+  reactStrictMode: true,
   webpack: (config) => {
     config.module.rules.push({
       test: /\.svg$/,
@@ -11,8 +11,8 @@ const nextConfig = {
     return config;
   },
   images: {
-    domains:["placehold.co"]
-  }
+    domains: ["placehold.co"],
+  },
 };
 
 export default nextConfig;

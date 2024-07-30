@@ -23,7 +23,10 @@ export const patchMyData = async (modifiedData: PatchMyData) => {
 
 export const uploadImage = async (image: File) => {
   try {
-    const { data } = await instance.post("images/upload", image, {
+    const formData = new FormData();
+    formData.append("image", image);
+
+    const { data } = await instance.post("images/upload", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -196,6 +199,16 @@ export const deleteComment = async (commentId: number) => {
   }
 };
 
+export const getMyEpigram = async (userId: number, pageParam: number) => {
+  try {
+    const { data } = await instance.get(`epigrams?limit=4&writerId=${userId}&cursor=${pageParam}`);
+    return data;
+  } catch (error) {
+    alert(error);
+    console.log(error);
+  }
+};
+
 export const getMyComment = async (userId: number, pageParam: number) => {
   try {
     const { data } = await instance.get(`users/${userId}/comments?limit=4&cursor=${pageParam}`);
@@ -206,9 +219,12 @@ export const getMyComment = async (userId: number, pageParam: number) => {
   }
 };
 
-export const postEmotion = async (emotionData: { emotionData: Emotion }) => {
+export const postEmotion = async (emotionData: string) => {
+  const otherData = {
+    emotion: emotionData,
+  };
   try {
-    const { data } = await instance.post("emotionLogs/today", emotionData);
+    const { data } = await instance.post("emotionLogs/today", otherData);
     return data;
   } catch (error) {
     alert(error);

@@ -2,7 +2,6 @@ import { SetStateAction } from "react";
 import TextArea from "../core/input/textArea";
 import { MainButton } from "../ui/MainButton";
 import { Switch } from "../ui/switch";
-import Image from "next/image";
 
 interface CommentInputProps {
   editingContent: string;
@@ -19,7 +18,7 @@ const CommentInput = (props: CommentInputProps) => {
   return (
     <div className="flex items-start gap-4 px-6 py-[35px] bg-background w-full">
       <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
-        <Image src={props.profileImage || ""} alt="유저 프로필 이미지" />
+        <img src={props.profileImage || ""} alt="유저 프로필 이미지" className="w-full h-full rounded-full" />
       </div>
       <div className="grow flex flex-col gap-4">
         <TextArea value={props.editingContent} onChange={(e) => props.setEditingContent(e.target.value)} className="rounded-lg" />

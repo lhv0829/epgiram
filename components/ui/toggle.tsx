@@ -14,9 +14,9 @@ const toggleVariants = cva(
         default: "data-[state=on]:border-transparent",
         moved: "data-[state=on]:border-illust-yellow",
         happy: "data-[state=on]:border-illust-green",
-        thinking: "data-[state=on]:border-illust-purple",
+        worried: "data-[state=on]:border-illust-purple",
         sad: "data-[state=on]:border-illust-blue",
-        anger: "data-[state=on]:border-illust-red",
+        angry: "data-[state=on]:border-illust-red",
       },
     },
     defaultVariants: {

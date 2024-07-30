@@ -6,9 +6,18 @@ import Comment from "@/components/epigram/Comment";
 import NoContent from "@/components/epigram/NoContent";
 import { SecondaryButton } from "@/components/ui/SecondaryButton";
 import Title from "@/components/ui/Title";
-import { getRecentEpigramTotalCount, getRecentCommentTotalCount, getRecentEpigrams, getTodayEpigram, getRecentComments } from "@/lib/fetch";
-import { Comment as CommentType, Epigram, InfiniteQueryComment, InfiniteQueryEpigram, Tag } from "@/lib/type";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import {
+  getRecentEpigramTotalCount,
+  getRecentCommentTotalCount,
+  getRecentEpigrams,
+  getTodayEpigram,
+  getRecentComments,
+  getMyData,
+  getTodayEmotion,
+  postEmotion,
+} from "@/lib/fetch";
+import { Comment as CommentType, Emotion, EmotionData, Epigram, InfiniteQueryComment, InfiniteQueryEpigram, Tag, User } from "@/lib/type";
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 // import { Metadata } from "next";
@@ -21,6 +30,7 @@ import { useEffect, useState } from "react";
 export default function Main() {
   const [showScrollButton, setShowScrollButton] = useState(false);
   const [limit, setLimit] = useState(3);
+  const queryClient = useQueryClient();
 
   const { data: todayEpigram } = useQuery<Epigram, Error>({
     queryKey: ["todayEpigram"],
@@ -35,6 +45,17 @@ export default function Main() {
   const { data: commentTotalCount } = useQuery<number>({
     queryKey: ["commentTotalCount"],
     queryFn: () => getRecentCommentTotalCount(),
+  });
+
+  const { data: user } = useQuery<User>({
+    queryKey: ["userId"],
+    queryFn: () => getMyData(),
+  });
+
+  const { data: todayEmotion } = useQuery<EmotionData>({
+    queryKey: ["todayEmotion", user?.id],
+    queryFn: () => getTodayEmotion(user?.id as number),
+    enabled: !!user?.id,
   });
 
   const {
@@ -68,12 +89,23 @@ export default function Main() {
     getNextPageParam: (lastPage) => (lastPage.nextCursor !== null ? Number(lastPage.nextCursor) : undefined),
   });
 
+  const { mutate: postTodayEmotion } = useMutation({
+    mutationFn: async (emotionData: string) => postEmotion(emotionData),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["todayEmotion", user?.id] });
+    },
+  });
+
   const handleClickMoreEpigrams = () => {
     if (hasNextEpigram) fetchNextEpigram();
   };
 
   const handleClickMoreComment = () => {
     if (hasNextComment) fetchNextComment();
+  };
+
+  const handleClickEmotion = (value: string) => {
+    postTodayEmotion(value);
   };
 
   useEffect(() => {
@@ -106,15 +138,18 @@ export default function Main() {
           }}
         />
       </div>
-      <div className="flex flex-col gap-6 lg:gap-10">
-        <Title>오늘의 감정은 어떤가요?</Title>
-        <TodayEmotion />
-      </div>
+      {!todayEmotion && (
+        <div className="flex flex-col gap-6 lg:gap-10">
+          <Title>오늘의 감정은 어떤가요?</Title>
+          <TodayEmotion onChange={handleClickEmotion} />
+        </div>
+      )}
+
       <div className="flex flex-col gap-6 lg:gap-10 mt-8 lg:mt-10">
         <Title>최신 에피그램</Title>
         <div className="flex flex-col gap-4">
           {epigramTotalCount === 0 ? (
-            <NoContent button="에피그램 만들기">
+            <NoContent button="에피그램 만들기" link="/addepigram">
               아직 작성된 에피그램이 없어요!
               <br />
               에피그램을 작성해보세요
@@ -138,7 +173,7 @@ export default function Main() {
         <Title>최신 댓글</Title>
         <div className="flex flex-col items-center justify-center gap-4">
           {commentTotalCount === 0 ? (
-            <NoContent button="에피그램 둘러보기">
+            <NoContent button="에피그램 둘러보기" link="/epigrams">
               아직 작성된 댓글이 없어요!
               <br />
               에피그램을 둘러보고 댓글을 작성해보세요
