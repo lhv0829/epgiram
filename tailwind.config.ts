@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import plugin from "tailwindcss/plugin";
 
 const config = {
   darkMode: ["class"],
@@ -20,7 +21,7 @@ const config = {
       lg: ["16px", "26px"],
       md: ["14px", "24px"],
       sm: ["13px", "22px"],
-      xs: ["12px", "18px"],
+      xs: ["12px", "20px"],
     },
     extend: {
       colors: {
@@ -58,7 +59,7 @@ const config = {
         },
         line: {
           "#F2F2F2": "hsl(0, 0, 95)",
-          CFDBEA: "hsl(213, 39, 86)",
+          "#CFDBEA": "hsl(213, 39, 86)",
         },
         illust: {
           yellow: "hsl(41, 95, 67)",
@@ -79,8 +80,8 @@ const config = {
         },
       },
       fontFamily: {
-        pre: ["PretendardVariable"],
-        iropke: ["IropkeBatangM"],
+        pre: ["PretendardVariable", "sans-serif"],
+        iropke: ["IropkeBatangM", "serif"],
       },
       keyframes: {
         "accordion-down": {
@@ -98,7 +99,19 @@ const config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  variants: {
+    extend: {
+      borderColor: ["error"],
+      textColor: ["error"],
+    },
+  },
+  plugins: [
+    require("tailwindcss-animate"),
+    require("@tailwindcss/forms"),
+    plugin(function ({ addVariant }) {
+      addVariant("error", "&.error");
+    }),
+  ],
 } satisfies Config;
 
 export default config;
