@@ -188,7 +188,7 @@ export default function Main() {
             )
           )}
         </div>
-        {commentTotalCount !== undefined && commentTotalCount > 5 && (
+        {commentTotalCount !== undefined && commentTotalCount > 4 && (
           <SecondaryButton variant="icon" size="xl" text="xl" className="mx-auto my-8" onClick={handleClickMoreComment}>
             <Plus />
             <span>더보기</span>
