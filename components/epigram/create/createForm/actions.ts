@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 import { redirect } from "next/navigation";
-import { getSession } from "@/lib/getSession";
+import { cookies } from "next/headers";
 
 const MAX_TAG_LENGTH = 10;
 const MAX_TAG_COUNT = 3;
@@ -58,14 +58,14 @@ export const formAction = async (prev: any, formData: FormData) => {
     return result.error.flatten();
   }
 
-  const session = await getSession();
+  const cookiesStore = cookies();
 
   const submitForm = async () => {
     const response = await fetch(`${process.env.BASE_URL}/api/epigram`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${session?.accessToken}`,
+        Authorization: `Bearer ${cookiesStore.get("accessToken")}`,
       },
       body: JSON.stringify({
         body: result.data,
@@ -94,15 +94,14 @@ export const formAction = async (prev: any, formData: FormData) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          refreshToken: session?.refreshToken,
+          refreshToken: cookiesStore.get("refreshToken"),
         }),
       }
     );
 
     if (tokenResponse.status === 200) {
       const tokenResult = await tokenResponse.json();
-      session!.accessToken = tokenResult.accessToken;
-      // cookies().set("accessToken", tokenResult.accessToken);
+      cookies().set("accessToken", tokenResult.accessToken);
       // 재발급 후 다시 폼 제출
       responseStatus = await submitForm();
     }

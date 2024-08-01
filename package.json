@@ -46,6 +46,7 @@
   "devDependencies": {
     "@svgr/webpack": "^8.1.0",
     "@tanstack/react-query-devtools": "^5.51.9",
+    "@types/js-cookie": "^3.0.6",
     "@types/mark.js": "^8.11.12",
     "@types/node": "^20",
     "@types/react": "^18",

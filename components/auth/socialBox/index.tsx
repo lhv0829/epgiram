@@ -1,8 +1,23 @@
 import Image from "next/image";
-import { googleSignin, KakaoSignin, NaverSignin } from "./actions";
+import { useState } from "react";
+import { signIn } from "./actions";
 
 interface ISocialBoxProps {}
 export default function SocialBox(props: ISocialBoxProps) {
+  const [redirectUrl, setRedirectUrl] = useState<string | null>(null);
+
+  const handleSignIn = async (provider: string) => {
+    const formData = new FormData();
+    formData.set("provider", provider);
+
+    const response = await signIn(formData);
+    setRedirectUrl(response.url);
+  };
+
+  if (redirectUrl) {
+    window.location.href = redirectUrl;
+  }
+
   return (
     <div className="mt-14 flex flex-col gap-10 justify-center">
       <div className="flex items-center justify-center gap-x-6">
@@ -27,26 +42,15 @@ export default function SocialBox(props: ISocialBoxProps) {
         </svg>
       </div>
       <div className="flex justify-center gap-x-4">
-        <form action={googleSignin}>
-          <button type="submit" className="oauth">
-            <Image
-              src="/icons/google.svg"
-              alt="google"
-              height={27}
-              width={27}
-            />
-          </button>
-        </form>
-        <form action={KakaoSignin}>
-          <button type="submit" className="oauth">
-            <Image src="/icons/kakao.svg" alt="kakao" height={30} width={27} />
-          </button>
-        </form>
-        <form action={NaverSignin}>
-          <button type="submit" className="oauth">
-            <Image src="/icons/naver.svg" alt="naver" height={30} width={27} />
-          </button>
-        </form>
+        <button onClick={() => handleSignIn("google")} className="oauth">
+          <Image src="/icons/google.svg" alt="google" height={27} width={27} />
+        </button>
+        <button onClick={() => handleSignIn("kakao")} className="oauth">
+          <Image src="/icons/kakao.svg" alt="kakao" height={30} width={27} />
+        </button>
+        <button onClick={() => handleSignIn("naver")} className="oauth">
+          <Image src="/icons/naver.svg" alt="naver" height={30} width={27} />
+        </button>
       </div>
     </div>
   );
