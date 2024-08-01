@@ -176,7 +176,7 @@ export default function Me() {
             nickname={userData?.nickname as string}
           />
           <div className="text-2xl font-medium text-black-950">
-            지킬과 하이드
+            {userData?.nickname}
           </div>
         </div>
         <button
