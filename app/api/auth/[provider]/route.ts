@@ -1,7 +1,10 @@
-"use server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function signIn(formData: FormData) {
-  const provider = formData.get("provider");
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { provider: string } }
+) {
+  const { provider } = params;
   const redirectUri = `http://localhost:3000/api/auth/callback/${provider}`;
   let authUrl = "";
 
@@ -16,8 +19,8 @@ export async function signIn(formData: FormData) {
       authUrl = `https://nid.naver.com/oauth2.0/authorize?client_id=${process.env.AUTH_NAVER_ID}&redirect_uri=${redirectUri}&response_type=code&state=YOUR_UNIQUE_STATE`;
       break;
     default:
-      throw new Error("Invalid provider");
+      return NextResponse.json({ error: "Invalid provider" }, { status: 400 });
   }
 
-  return { url: authUrl };
+  return NextResponse.redirect(authUrl);
 }

@@ -1,32 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
-// import { cookies } from "next/headers";
 
 export async function POST(request: NextRequest) {
   try {
-    // const cookiesStore = cookies();
-    const body = await request.json();
+    const {
+      body: { email, password },
+    } = await request.json();
     const response = await fetch(process.env.EPIGRAM_API + "auth/signIn", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(body),
+      body: JSON.stringify({ email, password }),
     });
-    const result = await response.json();
-    if (response.status !== 200) {
-      return NextResponse.json({ ok: false, result });
-    }
 
-    // cookiesStore.set("accessToken", result.accessToken, {
-    //   path: "/",
-    //   httpOnly: true,
-    // });
-    // cookiesStore.set("refreshToken", result.refreshToken, {
-    //   path: "/",
-    //   httpOnly: true,
-    // });
+    const { accessToken, refreshToken } = await response.json();
 
-    return NextResponse.json({ ok: true, result });
+    return NextResponse.json({ ok: true, accessToken, refreshToken });
   } catch (e) {
     console.log(e);
     return NextResponse.json({ ok: false });

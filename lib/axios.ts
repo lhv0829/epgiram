@@ -1,4 +1,5 @@
 import axios from "axios";
+import Cookies from "js-cookie";
 
 export const instance = axios.create({
   baseURL: "https://fe-project-epigram-api.vercel.app/2-1/",
@@ -9,9 +10,9 @@ export const instance = axios.create({
 });
 instance.interceptors.request.use(async (config) => {
   try {
-    const { data } = await axios.get("/api/auth/session");
-    if (data?.accessToken) {
-      config.headers["Authorization"] = `Bearer ${data.accessToken}`;
+    const accessToken = Cookies.get("accessToken");
+    if (accessToken) {
+      config.headers["Authorization"] = `Bearer ${accessToken}`;
     }
   } catch (error) {
     console.error("Failed to get session:", error);
@@ -25,9 +26,9 @@ instance.interceptors.response.use(
     const originalRequest = error.config;
     if (error.response?.status === 401) {
       try {
-        const { data: sessionData } = await axios.get("/api/auth/session");
+        const refreshToken = Cookies.get("refreshToken");
         const { data } = await axios.post("auth/refresh-token", {
-          refreshToken: sessionData.refreshToken,
+          refreshToken,
         });
         if (data?.accessToken) {
           originalRequest.headers[
