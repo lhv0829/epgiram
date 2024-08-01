@@ -1,10 +1,10 @@
-import { oauth } from "./action";
+// import { oauth } from "./action";
 
 export default function Oauth() {
   return (
     <div>
       <h1>Oauth</h1>
-      <form action={oauth}>
+      <form>
         <input
           type="text"
           name="nickname"

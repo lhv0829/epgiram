@@ -1,25 +1,25 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { MainButton } from "../ui/MainButton";
-import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
+import Cookies from "js-cookie";
 
 interface IStartButtonProps {}
 export default function StartButton(props: IStartButtonProps) {
   const router = useRouter();
   const [token, setToken] = useState(false);
-  const { data: session, status } = useSession();
-  console.log("client", session, status);
+
   useEffect(() => {
     const redirectPage = async () => {
-      if (session && (session.accessToken || session?.idToken)) {
+      const accessToken = Cookies.get("accessToken");
+      if (accessToken) {
         setToken(true);
       }
     };
 
     redirectPage();
-  }, [session]);
+  }, []);
 
   const handleClick = () => {
     console.log(token);
