@@ -1,5 +1,4 @@
 "use client";
-import { signOut } from "next-auth/react";
 import EmotionChart from "@/components/EmotionChart";
 import TodayEmotion from "@/components/TodayEmotion";
 import Card from "@/components/epigram/Card";
@@ -11,16 +10,37 @@ import { SecondaryButton } from "@/components/ui/SecondaryButton";
 import Title from "@/components/ui/Title";
 import { Calendar } from "@/components/ui/calendar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { getMonthlyEmotion, getMyComment, getMyCommentTotalCount, getMyData, getMyEpigram, getTodayEmotion, postEmotion } from "@/lib/fetch";
-import { EmotionData, Epigram, InfiniteQueryComment, InfiniteQueryEpigram, User } from "@/lib/type";
-import { notifyManager, useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  getMonthlyEmotion,
+  getMyComment,
+  getMyCommentTotalCount,
+  getMyData,
+  getMyEpigram,
+  getTodayEmotion,
+  postEmotion,
+} from "@/lib/fetch";
+import {
+  EmotionData,
+  Epigram,
+  InfiniteQueryComment,
+  InfiniteQueryEpigram,
+  User,
+} from "@/lib/type";
+import {
+  notifyManager,
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { format } from "date-fns";
 import { Plus } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import EmotionSelect from "@/components/EmotionSelect";
+import Cookies from "js-cookie";
 
 // export const metadata: Metadata = {
 //   title: "마이 페이지",
@@ -51,16 +71,35 @@ export default function Me() {
   });
 
   const { data: monthlyEmotion } = useQuery<EmotionData[]>({
-    queryKey: ["monthlyEmotion", userData?.id, month.getFullYear(), month.getMonth() + 1],
-    queryFn: () => getMonthlyEmotion(userData!.id, month.getFullYear(), month.getMonth() + 1),
+    queryKey: [
+      "monthlyEmotion",
+      userData?.id,
+      month.getFullYear(),
+      month.getMonth() + 1,
+    ],
+    queryFn: () =>
+      getMonthlyEmotion(
+        userData!.id,
+        month.getFullYear(),
+        month.getMonth() + 1
+      ),
   });
 
   const { mutate: postTodayEmotion } = useMutation({
     mutationFn: async (emotionData: string) => postEmotion(emotionData),
     onSuccess: () => {
       notifyManager.batch(() => {
-        queryClient.invalidateQueries({ queryKey: ["todayEmotion", userData?.id] });
-        queryClient.invalidateQueries({ queryKey: ["monthlyEmotion", userData?.id, month.getFullYear(), month.getMonth() + 1] });
+        queryClient.invalidateQueries({
+          queryKey: ["todayEmotion", userData?.id],
+        });
+        queryClient.invalidateQueries({
+          queryKey: [
+            "monthlyEmotion",
+            userData?.id,
+            month.getFullYear(),
+            month.getMonth() + 1,
+          ],
+        });
       });
     },
   });
@@ -78,7 +117,8 @@ export default function Me() {
       epigrams: [...data.pages.map((page) => page.list.flat())],
       pageParams: [data.pages.map(({ nextCursor }) => nextCursor)],
     }),
-    getNextPageParam: (lastPage) => (lastPage.nextCursor !== null ? Number(lastPage.nextCursor) : undefined),
+    getNextPageParam: (lastPage) =>
+      lastPage.nextCursor !== null ? Number(lastPage.nextCursor) : undefined,
     enabled: !!userData?.id,
   });
 
@@ -95,7 +135,8 @@ export default function Me() {
       comments: [...data.pages.map((page) => page.list.flat())],
       pageParams: [data.pages.map(({ nextCursor }) => nextCursor)],
     }),
-    getNextPageParam: (lastPage) => (lastPage.nextCursor !== null ? Number(lastPage.nextCursor) : undefined),
+    getNextPageParam: (lastPage) =>
+      lastPage.nextCursor !== null ? Number(lastPage.nextCursor) : undefined,
   });
 
   const handleClickMoreEpigram = () => {
@@ -111,12 +152,18 @@ export default function Me() {
   };
 
   const handleClickLogout = () => {
-    signOut({ callbackUrl: "/" });
+    Cookies.remove("accessToken");
+    Cookies.remove("refreshToken");
+    router.push("/");
   };
 
   useEffect(() => {
     if (monthlyEmotion) {
-      setFilteredData(monthlyEmotion?.filter((emotionData) => emotionData.emotion === filterValue));
+      setFilteredData(
+        monthlyEmotion?.filter(
+          (emotionData) => emotionData.emotion === filterValue
+        )
+      );
     }
   }, [filterValue]);
 
@@ -124,10 +171,18 @@ export default function Me() {
     <div className="w-full h-full flex flex-col items-center">
       <div className="absolute flex flex-col items-center gap-6 top-40">
         <div className="flex flex-col items-center gap-4">
-          <MyProfileImage profileIamge={userData?.image as string} nickname={userData?.nickname as string} />
-          <div className="text-2xl font-medium text-black-950">지킬과 하이드</div>
+          <MyProfileImage
+            profileIamge={userData?.image as string}
+            nickname={userData?.nickname as string}
+          />
+          <div className="text-2xl font-medium text-black-950">
+            지킬과 하이드
+          </div>
         </div>
-        <button onClick={handleClickLogout} className="rounded-[100px] px-4 py-1.5 text-gray-300 bg-line-#F2F2F2 text-xl font-medium">
+        <button
+          onClick={handleClickLogout}
+          className="rounded-[100px] px-4 py-1.5 text-gray-300 bg-line-#F2F2F2 text-xl font-medium"
+        >
           로그아웃
         </button>
       </div>
@@ -138,7 +193,10 @@ export default function Me() {
               <Title>오늘의 감정</Title>
               <p>{format(date, "yyyy.MM.dd")}</p>
             </div>
-            <TodayEmotion onChange={handleClickEmotion} value={todayEmotion?.emotion} />
+            <TodayEmotion
+              onChange={handleClickEmotion}
+              value={todayEmotion?.emotion}
+            />
           </div>
           <div className="relative">
             <div className="absolute right-28 top-2 z-10">
@@ -148,7 +206,17 @@ export default function Me() {
               onMonthChange={setMonth}
               month={month}
               components={{
-                Day: (props) => <Day {...props} dayData={filteredData.length !== 0 ? filteredData : monthlyEmotion || []} onChange={console.log} />,
+                Day: (props) => (
+                  <Day
+                    {...props}
+                    dayData={
+                      filteredData.length !== 0
+                        ? filteredData
+                        : monthlyEmotion || []
+                    }
+                    onChange={console.log}
+                  />
+                ),
               }}
             />
           </div>
@@ -156,8 +224,12 @@ export default function Me() {
             <Title>감정 차트</Title>
             {monthlyEmotion === undefined || monthlyEmotion?.length === 0 ? (
               <div className="flex flex-col gap-4 justify-center items-center px-28 py-6 w-[640px] border rounded-lg border-blue-200">
-                <p className="font-pre text-2xl font-semibold">아직 선택한 감정이 없습니다</p>
-                <p className="font-pre text-2xl font-semibold">감정을 표현해 보세요.</p>
+                <p className="font-pre text-2xl font-semibold">
+                  아직 선택한 감정이 없습니다
+                </p>
+                <p className="font-pre text-2xl font-semibold">
+                  감정을 표현해 보세요.
+                </p>
               </div>
             ) : (
               <EmotionChart emotionData={monthlyEmotion} />
@@ -168,8 +240,12 @@ export default function Me() {
       <div className="pt-24 w-[640px] flex flex-col items-center gap-[72px]">
         <Tabs defaultValue="epigrams" className="w-full">
           <TabsList className="mb-16">
-            <TabsTrigger value="epigrams">내 에피그램({myEpigram?.totalCount})</TabsTrigger>
-            <TabsTrigger value="comments">내 댓글({myCommentTotalCount})</TabsTrigger>
+            <TabsTrigger value="epigrams">
+              내 에피그램({myEpigram?.totalCount})
+            </TabsTrigger>
+            <TabsTrigger value="comments">
+              내 댓글({myCommentTotalCount})
+            </TabsTrigger>
           </TabsList>
           <TabsContent value="epigrams">
             {myEpigram?.totalCount === 0 ? (
@@ -182,15 +258,28 @@ export default function Me() {
               <div className="flex flex-col gap-12">
                 {myEpigram?.epigrams.map((epigrams) =>
                   epigrams?.map((epigram: Epigram) => (
-                    <Card key={epigram?.id} sentence={epigram?.content} author={epigram?.author} tags={epigram?.tags} id={epigram.id} />
+                    <Card
+                      key={epigram?.id}
+                      sentence={epigram?.content}
+                      author={epigram?.author}
+                      tags={epigram?.tags}
+                      id={epigram.id}
+                    />
                   ))
                 )}
-                {myEpigram?.totalCount !== undefined && myEpigram.totalCount > 4 && (
-                  <SecondaryButton variant="icon" size="xl" text="xl" className="mx-auto my-8" onClick={handleClickMoreEpigram}>
-                    <Plus />
-                    <span>더보기</span>
-                  </SecondaryButton>
-                )}
+                {myEpigram?.totalCount !== undefined &&
+                  myEpigram.totalCount > 4 && (
+                    <SecondaryButton
+                      variant="icon"
+                      size="xl"
+                      text="xl"
+                      className="mx-auto my-8"
+                      onClick={handleClickMoreEpigram}
+                    >
+                      <Plus />
+                      <span>더보기</span>
+                    </SecondaryButton>
+                  )}
               </div>
             )}
           </TabsContent>
@@ -206,18 +295,33 @@ export default function Me() {
                 <div className="flex flex-col items-center justify-center">
                   {myComments?.comments.map((comments) =>
                     comments.map((comment) => (
-                      <Link href={`/epigrams/${comment.epigramId}`} className="w-full" key={comment.id}>
-                        <Comment commentData={comment} epigramId={comment.epigramId} userId={userData?.id as number} />
+                      <Link
+                        href={`/epigrams/${comment.epigramId}`}
+                        className="w-full"
+                        key={comment.id}
+                      >
+                        <Comment
+                          commentData={comment}
+                          epigramId={comment.epigramId}
+                          userId={userData?.id as number}
+                        />
                       </Link>
                     ))
                   )}
                 </div>
-                {myCommentTotalCount !== undefined && myCommentTotalCount > 5 && (
-                  <SecondaryButton variant="icon" size="xl" text="xl" className="mx-auto my-8" onClick={handleClickMoreComment}>
-                    <Plus />
-                    <span>더보기</span>
-                  </SecondaryButton>
-                )}
+                {myCommentTotalCount !== undefined &&
+                  myCommentTotalCount > 5 && (
+                    <SecondaryButton
+                      variant="icon"
+                      size="xl"
+                      text="xl"
+                      className="mx-auto my-8"
+                      onClick={handleClickMoreComment}
+                    >
+                      <Plus />
+                      <span>더보기</span>
+                    </SecondaryButton>
+                  )}
               </div>
             )}
           </TabsContent>
