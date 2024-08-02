@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest, { params }: { params: { provider: string } }) {
   const { provider } = params;
-  const redirectUri = `${process.env.BASE_URL}/api/auth/callback/${provider}`;
+  const redirectUri = `${process.env.REDIRECT_URI}/${provider}`;
   let authUrl = "";
 
   switch (provider) {
