@@ -16,9 +16,9 @@ export default function SearchList() {
   return (
     <div className="flex flex-wrap gap-4">
       {searchWords.map((word, index) => (
-        <button key={index} onClick={() => handleSearchClick(word)}>
-          <SearchWordChip>{word}</SearchWordChip>
-        </button>
+        <SearchWordChip key={word + String(index)} onClick={() => handleSearchClick(word)}>
+          {word}
+        </SearchWordChip>
       ))}
     </div>
   );
