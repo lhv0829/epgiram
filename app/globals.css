@@ -1,0 +1,92 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: PretendardVariable;
+  font-weight: 45 920;
+  font-display: swap;
+  src: url("/fonts/PretendardVariable.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: IropkeBatangM;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/IropkeBatangM.woff") format("otf");
+}
+
+@layer utilities {
+  .notebook-background {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 90%, rgba(245, 245, 245, 1) 100%);
+    background-size: 100% 24px;
+  }
+
+  .notebook-pattern {
+    background-color: #ffffff;
+    opacity: 1;
+    background-size: 38px 38px;
+    background-image: repeating-linear-gradient(0deg, #f2f2f2, #f2f2f2 1.7000000000000002px, #ffffff 1.7000000000000002px, #ffffff);
+  }
+
+  .zigzag-pattern {
+    @apply relative bg-white h-7 z-10;
+  }
+
+  .zigzag-pattern::after {
+    content: "";
+    @apply block absolute top-full left-0 right-0 h-7;
+    background: linear-gradient(-150deg, #fff 15px, transparent 0) 0 15px, linear-gradient(150deg, #fff 15px, transparent 0) 0 15px;
+    background-position: top left;
+    background-repeat: repeat-x;
+    background-size: 30px 30px; /* 배경 크기 설정 */
+  }
+}
+
+@layer components {
+  .oauth {
+    @apply size-[60px] border border-blue-300 rounded-md flex flex-shrink-0 items-center justify-center;
+  }
+
+  .textField-outline {
+    @apply w-full h-16 px-4 rounded-xl bg-blue-100 border border-blue-300 text-black-950 text-xl outline-none placeholder:text-blue-400 hover:border-blue-500 error:border-error;
+  }
+
+  .textField-solid {
+    @apply w-full h-16 px-4 rounded-xl bg-blue-200 text-black-950 text-xl outline-none placeholder:text-blue-400 border-0 error:border error:border-error;
+  }
+
+  .textarea-outline {
+    @apply w-full px-4 py-3 bg-transparent rounded-lg border border-line-#CFDBEA resize-none text-xl text-black-950 placeholder:text-blue-400 placeholder:text-xl focus:outline-none focus:ring-1 focus:ring-black-600 error:ring-1 error:ring-error;
+  }
+
+  .textarea-solid {
+    @apply w-full px-4 py-3 rounded-lg bg-blue-100 border border-line-#CFDBEA resize-none text-xl text-black-700 placeholder:text-blue-400 placeholder:text-xl outline-none focus:ring-1 focus:ring-black-600 ring-1 ring-blue-300  error:focus:ring-error error:ring-error;
+  }
+}
+
+@layer base {
+  :root {
+    ::-webkit-scrollbar {
+      width: 14px;
+      height: 14px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      outline: none;
+      border-radius: 10px;
+      border: 4px solid transparent;
+      box-shadow: inset 6px 6px 0 rgba(129, 140, 248, 1);
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      border: 4px solid transparent;
+      box-shadow: inset 6px 6px 0 rgba(129, 140, 248, 0.5);
+    }
+
+    ::-webkit-scrollbar-track {
+      box-shadow: none;
+      background-color: transparent;
+    }
+  }
+}
