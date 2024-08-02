@@ -14,7 +14,7 @@ const DeleteCommentDialog = ({ commentId, epigramId }: DeleteCommentDialogProps)
   const { mutate: removeComment } = useMutation({
     mutationFn: async (commentId: number) => deleteComment(commentId),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["epigramComment", epigramId] });
+      queryClient.invalidateQueries({ queryKey: ["epigramComments", epigramId] });
     },
   });
   const handleClickDelete = () => {

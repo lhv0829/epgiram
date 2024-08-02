@@ -26,7 +26,7 @@ export default function Comment({ commentData, epigramId, userId = undefined }: 
   const { mutate: modifyComment } = useMutation({
     mutationFn: async (commentData: PatchCommentData) => patchComment({ commentData, commentId }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["epigramComment", epigramId] });
+      queryClient.invalidateQueries({ queryKey: ["epigramComments", epigramId] });
     },
   });
 
