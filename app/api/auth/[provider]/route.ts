@@ -1,11 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { provider: string } }
-) {
+export async function GET(req: NextRequest, { params }: { params: { provider: string } }) {
   const { provider } = params;
-  const redirectUri = `http://localhost:3000/api/auth/callback/${provider}`;
+  const redirectUri = `${process.env.BASE_URL}/api/auth/callback/${provider}`;
   let authUrl = "";
 
   switch (provider) {
