@@ -5,7 +5,6 @@ import SearchInput from "./SearchInput";
 import SearchList from "./SearchList";
 import CardList from "./CardList";
 import { SearchProvider } from "@/contexts/SearchProvider";
-import { useSearchParams } from "next/navigation";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const queryClient = new QueryClient();
