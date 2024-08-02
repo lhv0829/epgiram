@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import Mark from "mark.js";
 import Link from "next/link";
 import { Post } from "./types";
+import { Suspense } from "react";
 
 const CombinCard = forwardRef<HTMLDivElement, Post>((props, ref) => {
   const contentRef = useRef<HTMLDivElement>(null);
@@ -60,27 +61,23 @@ const CombinCard = forwardRef<HTMLDivElement, Post>((props, ref) => {
   }, [params]);
 
   return (
-    <Link
-      href={`/epigrams/${props.id}`}
-      className="block p-6 text-xl border-b-gray-100 border-b"
-    >
-      <div ref={ref}>
-        <div
-          ref={contentRef}
-          className="flex flex-col gap-6 font-iropke text-xl"
-        >
-          <p>{props.content}</p>
-          <span ref={authorRef}>- {props.author} -</span>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Link href={`/epigrams/${props.id}`} className="block p-6 text-xl border-b-gray-100 border-b">
+        <div ref={ref}>
+          <div ref={contentRef} className="flex flex-col gap-6 font-iropke text-xl">
+            <p>{props.content}</p>
+            <span ref={authorRef}>- {props.author} -</span>
+          </div>
+          <div ref={tagRef} className="text-end">
+            {props.tags.map((tag, index) => (
+              <span key={tag.id} className="text-blue-400 ml-3">
+                {tag.name}
+              </span>
+            ))}
+          </div>
         </div>
-        <div ref={tagRef} className="text-end">
-          {props.tags.map((tag, index) => (
-            <span key={tag.id} className="text-blue-400 ml-3">
-              {tag.name}
-            </span>
-          ))}
-        </div>
-      </div>
-    </Link>
+      </Link>
+    </Suspense>
   );
 });
 
