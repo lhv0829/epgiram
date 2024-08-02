@@ -2,7 +2,7 @@
 
 export async function signIn(formData: FormData) {
   const provider = formData.get("provider");
-  const redirectUri = `http://localhost:3000/api/auth/callback/${provider}`;
+  const redirectUri = `${process.env.REDIRECT_URI}/${provider}`;
   let authUrl = "";
 
   switch (provider) {
